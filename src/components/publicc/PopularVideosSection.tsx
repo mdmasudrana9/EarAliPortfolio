@@ -36,11 +36,11 @@ const videos = [
 
 export default function PopularVideos() {
   return (
-    <div className="max-w-7xl mx-auto px-4 py-12">
+    <div className="max-w-7xl mx-auto px-4 lg:py-12">
       {/* Header Section */}
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-2">
+          <h2 className="text-3xl lg:text-5xl font-bold text-foreground mb-2">
             Watch My Most{" "}
             <span className="relative">
               Popular Videos

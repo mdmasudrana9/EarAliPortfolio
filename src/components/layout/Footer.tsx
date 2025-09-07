@@ -9,7 +9,7 @@ import {
 
 export default function Footer() {
   return (
-    <footer className="bg-muted border-t border-border">
+    <footer className="bg-muted border-t mt-20 border-border">
       <div className="max-w-6xl mx-auto px-6 py-12">
         {/* Logo and Copyright Section */}
         <div className="mb-8">

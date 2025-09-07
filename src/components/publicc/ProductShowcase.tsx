@@ -43,10 +43,10 @@ const products = [
 
 export default function ProductShowcase() {
   return (
-    <div className=" bg-background pt-30 px-4">
-      <div className="max-w-6xl mx-auto">
+    <div className=" bg-background lg:pt-30 px-4">
+      <div className="max-w-7xl mx-auto">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-foreground mb-4 text-balance">
+          <h1 className="md:text-4xl text-3xl font-bold text-foreground mb-4 text-balance">
             Ear Ali&apos;s Productivity Ecosystem
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto text-pretty">

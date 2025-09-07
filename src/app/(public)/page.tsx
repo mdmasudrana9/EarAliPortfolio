@@ -1,4 +1,3 @@
-import AnimatedHero from "@/components/publicc/AnimatedHero";
 import HelpSection from "@/components/publicc/HelpSection";
 import Hero from "@/components/publicc/Hero";
 import JournalingSection from "@/components/publicc/JournalingSection";
@@ -10,8 +9,8 @@ import ProductShowcase from "@/components/publicc/ProductShowcase";
 const page = () => {
   return (
     <div>
-      {/* <Hero /> */}
-      <AnimatedHero />
+      <Hero />
+      {/* <AnimatedHero /> */}
       <HelpSection />
       <JournalingSection />
       <PopularVideos />

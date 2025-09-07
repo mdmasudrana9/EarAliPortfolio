@@ -122,6 +122,9 @@
   body {
     @apply bg-background text-foreground;
   }
+  body {
+    @apply bg-[#FFFFFF];
+  }
 }
 
 /* Added wave animation for emoji */

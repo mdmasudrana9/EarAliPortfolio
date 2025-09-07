@@ -4,14 +4,14 @@ import { Card, CardContent } from "@/components/ui/card";
 
 const HelpSection = () => {
   return (
-    <div className="min-h-screen bg-amber-50 py-16 px-4">
+    <div className="min-h-screen lg:py-16 px-4">
       <div className="max-w-4xl mx-auto">
         {/* Main Heading */}
-        <div className="text-center mb-16">
-          <h1 className="text-5xl font-bold text-gray-900 mb-2 text-balance">
+        <div className="text-center mb-8 lg:mb-16">
+          <h1 className="lg:text-5xl mt-8 text-2xl font-bold text-gray-900 mb-2 text-balance">
             How Can
           </h1>
-          <h1 className="text-5xl font-bold text-gray-900 mb-4 text-balance">
+          <h1 className="lg:text-5xl text-3xl md:text-4xl font-bold text-gray-900 mb-4 text-balance">
             I Help{" "}
             <span className="underline decoration-blue-400 decoration-4">
               You

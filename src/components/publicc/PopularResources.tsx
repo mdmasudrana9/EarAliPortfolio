@@ -55,10 +55,10 @@ export function PopularResources() {
     <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
       <div className="flex flex-col sm:flex-row items-start justify-between mb-8 sm:mb-12 gap-6 sm:gap-4">
         <div className="relative">
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-5xl font-bold text-foreground mb-2 text-balance leading-tight">
+          <h2 className="text-2xl sm:text-4xl lg:text-5xl xl:text-5xl font-bold text-foreground mb-2 text-balance leading-tight">
             Check Out My Most
           </h2>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl xl:text-5xl font-bold text-foreground relative text-balance leading-tight">
+          <h2 className="text-2xl sm:text-4xl lg:text-5xl xl:text-5xl font-bold text-foreground relative text-balance leading-tight">
             Popular Resources
             {/* <div className="absolute -bottom-2 sm:-bottom-3 left-0 w-24 sm:w-32 lg:w-40 h-2 sm:h-3 bg-gradient-to-r from-amber-200 to-orange-200 -z-10 transform -rotate-1 animate-pulse"></div> */}
             <Sparkles className="absolute -top-2 -right-8 sm:-right-12 h-6 w-6 sm:h-8 sm:w-8 text-amber-400 animate-pulse" />

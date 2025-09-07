@@ -4,30 +4,30 @@ import { Star, TrendingUp } from "lucide-react";
 
 export default function LifeNotesSubscription() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 flex items-center justify-center p-4">
-      <div className="bg-white/80 backdrop-blur-sm border border-white/20 shadow-2xl rounded-3xl p-8 md:p-12 max-w-6xl w-full">
-        <div className="flex flex-col lg:flex-row lg:items-start gap-8 lg:gap-12">
+    <div className=" flex items-center justify-center p-4">
+      <div className="bg-white backdrop-blur-sm border border-white/20 shadow-xl rounded-3xl p-4  md:p-12 max-w-7xl w-full">
+        <div className="flex bg-white flex-col lg:flex-row lg:items-start gap-8 lg:gap-12">
           {/* Left Section - Header and Social Proof */}
           <div className="flex-1 space-y-6">
             <div className="space-y-4">
               <div className="flex items-center gap-3 mb-2">
-                <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent">
+                <h1 className="text-3xl lg:text-4xl font-semibold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent">
                   Subscribe to
                 </h1>
                 <div className="p-2 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl shadow-lg">
-                  <TrendingUp className="w-6 h-6 text-white" />
+                  <TrendingUp className="lg:w-6 lg:h-6 text-white" />
                 </div>
               </div>
 
-              <h2 className="text-4xl md:text-5xl font-black bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent leading-tight">
+              <h2 className="text-4xl lg:text-5xl font-bold font-serif  bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent leading-tight">
                 LifeNotes
               </h2>
             </div>
 
             <div className="space-y-4">
-              <p className="text-lg text-slate-600 font-medium">
+              <p className="text-lg text-slate-600 md:w-100 font-medium">
                 Join a growing community of more than{" "}
-                <span className="font-bold text-slate-800 bg-gradient-to-r from-yellow-200 to-yellow-300 px-2 py-1 rounded-lg">
+                <span className="font-bold text-slate-800  py-1 rounded-lg">
                   310,000 friendly readers
                 </span>
               </p>
@@ -43,7 +43,7 @@ export default function LifeNotesSubscription() {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2 bg-white/60 backdrop-blur-sm rounded-full px-4 py-2 border border-white/30">
+                <div className=" gap-2 bg-white/60 backdrop-blur-sm rounded-full px-3 py-2 border border-white/30">
                   <div className="flex items-center">
                     {[...Array(5)].map((_, i) => (
                       <Star
@@ -53,7 +53,7 @@ export default function LifeNotesSubscription() {
                     ))}
                   </div>
                   <span className="text-sm font-semibold text-slate-700">
-                    4.9 • 200+ reviews
+                    200+ reviews
                   </span>
                 </div>
               </div>
@@ -62,21 +62,11 @@ export default function LifeNotesSubscription() {
 
           {/* Right Section - Description and Form */}
           <div className="flex-1 space-y-6">
-            <div className="bg-gradient-to-br from-white/60 to-white/30 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
-              <p className="text-lg text-slate-700 leading-relaxed font-medium">
-                Each week, I share{" "}
-                <span className="font-bold text-indigo-600">
-                  actionable productivity tips
-                </span>
-                ,{" "}
-                <span className="font-bold text-purple-600">
-                  practical life advice
-                </span>
-                , and{" "}
-                <span className="font-bold text-pink-600">
-                  highlights from my favourite books
-                </span>
-                , directly to your inbox.
+            <div className="bg-gradient-to-br lg:text-2xl from-white/60 to-white/30 backdrop-blur-sm rounded-2xl  border border-white/20">
+              <p className="font-semibold">
+                Each week, I share actionable productivity tips practical life
+                advice , and highlights from my favorites books , directly to
+                your inbox.
               </p>
             </div>
 
@@ -94,7 +84,7 @@ export default function LifeNotesSubscription() {
               </Button>
             </div>
 
-            <div className="bg-slate-50/60 backdrop-blur-sm rounded-xl p-4 border border-slate-200/50">
+            <div className="bg-slate-50/60 backdrop-blur-sm rounded-xl p-2 md:p-4 border border-slate-200/50">
               <p className="text-sm text-slate-600 leading-relaxed">
                 By submitting this form, you&apos;ll be signed up to my free
                 newsletter, which sometimes includes mentions of my books, apps

@@ -2,22 +2,20 @@
 
 import { useState } from "react";
 
-import { Button } from "@/components/ui/button";
-import {
-  ChevronDown,
-  FileText,
-  BookOpen,
-  Play,
-  Mic,
-  Mail,
-  DollarSign,
-  Youtube,
-  GraduationCap,
-  Globe,
-  Monitor,
-  ArrowRight,
-} from "lucide-react";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import {
+  ArrowRight,
+  BookOpen,
+  DollarSign,
+  FileText,
+  Globe,
+  GraduationCap,
+  Mail,
+  Mic,
+  Monitor,
+  Play,
+  Youtube,
+} from "lucide-react";
 
 const browseByTypeItems = [
   {
@@ -111,46 +109,59 @@ export function ResourceBrowserDialog() {
           </svg>
         </a>
       </DialogTrigger>
-      <DialogContent className="max-w-4xl w-full p-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 !top-0 !left-0 !transform-none">
+
+      {/* DialogContent with responsive design */}
+      <DialogContent className="max-w-4xl w-full p-4 sm:p-6 md:p-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-12 !top-0 !left-0 !transform-none">
           {/* Browse by type */}
           <div>
-            <h2 className="text-2xl font-bold mb-6">Browse by type:</h2>
-            <div className="space-y-4">
+            <h2 className="text-xl md:text-2xl font-bold mb-4 md:mb-6">
+              Browse by type:
+            </h2>
+            <div className="space-y-3 md:space-y-4">
               {browseByTypeItems.map((item) => {
                 const IconComponent = item.icon;
                 return (
                   <button
                     key={item.name}
-                    className="w-full flex items-center gap-4 p-3 rounded-lg hover:bg-accent transition-colors text-left"
+                    className="w-full flex items-center gap-3 md:gap-4 p-2 md:p-3 rounded-lg hover:bg-accent transition-colors text-left"
                     onClick={() => setOpen(false)}
                   >
                     <div className={`p-2 rounded-lg ${item.bgColor}`}>
-                      <IconComponent className={`h-5 w-5 ${item.iconColor}`} />
+                      <IconComponent
+                        className={`h-4 w-4 md:h-5 md:w-5 ${item.iconColor}`}
+                      />
                     </div>
-                    <span className="text-lg font-medium">{item.name}</span>
+                    <span className="text-base md:text-lg font-medium">
+                      {item.name}
+                    </span>
                   </button>
                 );
               })}
             </div>
           </div>
 
-          {/* Browse by topic */}
           <div>
-            <h2 className="text-2xl font-bold mb-6">Browse by topic:</h2>
-            <div className="space-y-4">
+            <h2 className="text-xl md:text-2xl font-bold mb-4 md:mb-6">
+              Browse by topic:
+            </h2>
+            <div className="space-y-3 md:space-y-4">
               {browseByTopicItems.map((item) => {
                 const IconComponent = item.icon;
                 return (
                   <button
                     key={item.name}
-                    className="w-full flex items-center gap-4 p-3 rounded-lg hover:bg-accent transition-colors text-left"
+                    className="w-full flex items-center gap-3 md:gap-4 p-2 md:p-3 rounded-lg hover:bg-accent transition-colors text-left"
                     onClick={() => setOpen(false)}
                   >
                     <div className={`p-2 rounded-lg ${item.bgColor}`}>
-                      <IconComponent className={`h-5 w-5 ${item.iconColor}`} />
+                      <IconComponent
+                        className={`h-4 w-4 md:h-5 md:w-5 ${item.iconColor}`}
+                      />
                     </div>
-                    <span className="text-lg font-medium">{item.name}</span>
+                    <span className="text-base md:text-lg font-medium">
+                      {item.name}
+                    </span>
                   </button>
                 );
               })}
@@ -158,7 +169,7 @@ export function ResourceBrowserDialog() {
 
             {/* All categories link */}
             <button
-              className="flex items-center gap-2 mt-6 text-muted-foreground hover:text-foreground transition-colors"
+              className="flex items-center gap-2 mt-4 md:mt-6 text-sm md:text-base text-muted-foreground hover:text-foreground transition-colors"
               onClick={() => setOpen(false)}
             >
               <span>all categories</span>
