@@ -15,15 +15,15 @@ const Navbar = () => {
   return (
     <nav
       className={clsx(
-        "flex max-w-7xl rounded-l-lg rounded-r-lg lg:mt-3 bg-[#F9F6F3] mx-auto items-center justify-between p-6 md:p-8 z-20",
+        "flex max-w-7xl  rounded-t-lg lg:mt-3 bg-[#F9F6F3] mx-auto items-center justify-between p-6 md:p-8 z-20",
         isOpen ? "fixed top-0 left-0 w-full" : "relative"
       )}
     >
       {/* Logo */}
-      <div className="flex items-center space-x-2">
+      <Link href="/" className="flex items-center space-x-2">
         <div className="text-2xl font-bold text-cyan-500">⚡</div>
         <div className="text-2xl font-bold text-gray-900">Ear Ali</div>
-      </div>
+      </Link>
 
       {/* Desktop Menu */}
       <div className="hidden md:flex items-center space-x-8">
@@ -37,7 +37,7 @@ const Navbar = () => {
         <Link href="#lifeos" className="transition-colors font-medium">
           Contact
         </Link>
-        {user && (
+        {user?.role === "admin" && (
           <Link href="/dashboard" className="transition-colors font-medium">
             Dashboard
           </Link>

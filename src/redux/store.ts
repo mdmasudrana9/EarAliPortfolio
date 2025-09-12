@@ -4,7 +4,8 @@
 
 import { baseApi } from "@/redux/api/baseApi";
 import { configureStore } from "@reduxjs/toolkit";
-
+import { setupListeners } from "@reduxjs/toolkit/query";
+import articleReducer from "@/redux/features/articles/articleSlice";
 // import {
 //   persistStore,
 //   persistReducer,
@@ -50,11 +51,13 @@ import { configureStore } from "@reduxjs/toolkit";
 export const store = configureStore({
   reducer: {
     [baseApi.reducerPath]: baseApi.reducer,
+    article: articleReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(baseApi.middleware),
   devTools: process.env.NODE_ENV !== "production",
 });
+setupListeners(store.dispatch);
 
 // Infer the `RootState` and `AppDispatch` types
 export type RootState = ReturnType<typeof store.getState>;

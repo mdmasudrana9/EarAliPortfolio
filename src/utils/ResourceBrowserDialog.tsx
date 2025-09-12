@@ -16,34 +16,40 @@ import {
   Play,
   Youtube,
 } from "lucide-react";
+import Link from "next/link";
 
 const browseByTypeItems = [
   {
     name: "Articles",
+    href: "/articles",
     icon: FileText,
     iconColor: "text-orange-500",
     bgColor: "bg-orange-50 dark:bg-orange-950/20",
   },
   {
     name: "Book Notes",
+    href: "/book",
     icon: BookOpen,
     iconColor: "text-green-500",
     bgColor: "bg-green-50 dark:bg-green-950/20",
   },
   {
     name: "Videos",
+    href: "/videos",
     icon: Play,
     iconColor: "text-purple-500",
     bgColor: "bg-purple-50 dark:bg-purple-950/20",
   },
   {
     name: "Podcast",
+    href: "/podcast",
     icon: Mic,
     iconColor: "text-blue-500",
     bgColor: "bg-blue-50 dark:bg-blue-950/20",
   },
   {
     name: "Newsletter",
+    href: "/newsletter",
     icon: Mail,
     iconColor: "text-yellow-500",
     bgColor: "bg-yellow-50 dark:bg-yellow-950/20",
@@ -122,7 +128,8 @@ export function ResourceBrowserDialog() {
               {browseByTypeItems.map((item) => {
                 const IconComponent = item.icon;
                 return (
-                  <button
+                  <Link
+                    href={item.href}
                     key={item.name}
                     className="w-full flex items-center gap-3 md:gap-4 p-2 md:p-3 rounded-lg hover:bg-accent transition-colors text-left"
                     onClick={() => setOpen(false)}
@@ -135,7 +142,7 @@ export function ResourceBrowserDialog() {
                     <span className="text-base md:text-lg font-medium">
                       {item.name}
                     </span>
-                  </button>
+                  </Link>
                 );
               })}
             </div>

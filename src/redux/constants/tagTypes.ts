@@ -3,4 +3,6 @@ export const TAG_TYPES = {
   User: "User",
   Category: "Category",
   Comment: "Comment",
+  Article: "Article",
+  Newsletter: "Newsletter",
 } as const;

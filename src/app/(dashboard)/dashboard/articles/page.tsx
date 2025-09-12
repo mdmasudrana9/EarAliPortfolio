@@ -15,13 +15,7 @@ export default function Home() {
           </p>
         </div>
 
-        <TiptapEditor
-          placeholder="Start writing your article..."
-          onChange={(content) => {
-            // Handle content changes here
-            console.log("Content updated:", content);
-          }}
-        />
+        <TiptapEditor placeholder="Start writing your article..." />
       </div>
     </main>
   );

@@ -1,7 +1,7 @@
 // newsletter/types.ts
 
 export interface INewsletter {
-  id: string;
+  _id: string;
   email: string;
   createdAt: string;
   updatedAt: string;

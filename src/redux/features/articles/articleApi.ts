@@ -1,38 +1,79 @@
-import { baseApi } from "../../api/baseApi";
+// redux/features/articles/articleApi.ts
+import { baseApi } from "@/redux/api/baseApi";
+import { Article } from "@/redux/features/articles/types";
 
-const articleApi = baseApi.injectEndpoints({
-  endpoints: (builder) => ({
-    createArticle: builder.mutation({
-      query: (data) => ({
-        url: "/articles",
+export const articleApi = baseApi.injectEndpoints({
+  endpoints: (build) => ({
+    // CREATE: Save Draft
+    saveDraft: build.mutation<
+      { success: boolean; message: string; data: Article },
+      { title: string; content: string }
+    >({
+      query: (body) => ({
+        url: "/articles/draft",
         method: "POST",
-        body: data,
+        body,
       }),
+      // invalidatesTags: ["Article"],
     }),
-    getAllArticles: builder.query({
+
+    // CREATE: Publish Article
+    publishArticle: build.mutation<
+      { success: boolean; message: string; data: Article },
+      { title: string; content: string }
+    >({
+      query: (body) => ({
+        url: "/articles/publish",
+        method: "POST",
+        body,
+      }),
+      // invalidatesTags: ["Article"],
+    }),
+
+    // READ: Get All Articles
+    getAllArticles: build.query<{ data: Article[] }, void>({
       query: () => "/articles",
+      // providesTags: ["Article"],
     }),
-    getArticleById: builder.query({
+
+    // READ: Get Single Article
+    getArticleById: build.query<{ data: Article }, string>({
       query: (id) => `/articles/${id}`,
+      // providesTags: ["Article"],
     }),
-    updateArticle: builder.mutation({
-      query: ({ id, ...data }) => ({
+
+    // UPDATE: Update Article
+    updateArticle: build.mutation<
+      { success: boolean; message: string; data: Article },
+      { id: string; title: string; content: string }
+    >({
+      query: ({ id, ...body }) => ({
         url: `/articles/${id}`,
         method: "PATCH",
-        body: data,
+        body,
       }),
+      // invalidatesTags: ["Article"],
     }),
-    deleteArticle: builder.mutation({
+
+    // DELETE: Delete Article
+    deleteArticle: build.mutation<
+      { success: boolean; message: string },
+      string
+    >({
       query: (id) => ({
         url: `/articles/${id}`,
         method: "DELETE",
       }),
+      // invalidatesTags: ["Article"],
     }),
   }),
+
+  overrideExisting: false,
 });
 
 export const {
-  useCreateArticleMutation,
+  useSaveDraftMutation,
+  usePublishArticleMutation,
   useGetAllArticlesQuery,
   useGetArticleByIdQuery,
   useUpdateArticleMutation,

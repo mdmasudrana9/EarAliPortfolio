@@ -1,3 +1,4 @@
+import { TAG_TYPES } from "@/redux/constants/tagTypes";
 import { baseApi } from "../../api/baseApi";
 
 const newsletterApi = baseApi.injectEndpoints({
@@ -8,12 +9,15 @@ const newsletterApi = baseApi.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: [TAG_TYPES.Newsletter],
     }),
     getAllNewsletters: builder.query({
       query: () => "/newsletter",
+      providesTags: [TAG_TYPES.Newsletter], // 🔹 এখানে যোগ করতে হবে
     }),
     getNewsletterById: builder.query({
       query: (id) => `/newsletter/${id}`,
+      providesTags: (result, error, id) => [{ type: TAG_TYPES.Newsletter, id }],
     }),
     updateNewsletter: builder.mutation({
       query: ({ id, ...data }) => ({
@@ -21,12 +25,14 @@ const newsletterApi = baseApi.injectEndpoints({
         method: "PATCH",
         body: data,
       }),
+      invalidatesTags: [TAG_TYPES.Newsletter],
     }),
     deleteNewsletter: builder.mutation({
       query: (id) => ({
         url: `/newsletter/${id}`,
         method: "DELETE",
       }),
+      invalidatesTags: [TAG_TYPES.Newsletter],
     }),
   }),
 });
