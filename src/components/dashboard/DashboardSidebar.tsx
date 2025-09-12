@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import {
   BarChart3,
   FileText,
+  Home,
   LayoutDashboard,
   Mail,
   Settings,
@@ -19,6 +20,12 @@ type NavItems = {
 };
 
 const navItems: NavItems[] = [
+  {
+    title: "Home",
+    href: "/",
+    icon: Home,
+    roles: ["admin", "user"],
+  },
   {
     title: "Overview",
     href: "/dashboard",
@@ -55,6 +62,7 @@ const navItems: NavItems[] = [
     icon: Video,
     roles: ["admin"],
   },
+
   {
     title: "Settings",
     href: "/dashboard/settings",
@@ -85,11 +93,11 @@ const DashboardSidebar = () => {
                   "flex items-center space-x-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
                   isActive
                     ? "bg-purple-600  text-white"
-                    : "text-sidebar-foreground hover:bg-sidebar-primary hover:text-sidebar-primary-foreground"
+                    : "hover:bg-purple-500/40"
                 )}
               >
                 <Icon className="w-3 h-3 md:h-5 md:w-5 animate-out text-green-500" />
-                <span className="text-md font-medium hidden md:block  px-1  hover:bg-gray-200 transition-all duration-300">
+                <span className="text-md font-medium hidden md:block  px-1  transition-all duration-300">
                   {item.title}
                 </span>
               </Link>

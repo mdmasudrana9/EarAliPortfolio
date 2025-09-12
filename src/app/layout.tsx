@@ -1,7 +1,8 @@
-import { AuthProvider } from "@/contexts/auth-context";
 import type { Metadata } from "next";
 import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
+import { ReduxProviders } from "@/Providers/ReduxProviders";
+import { Toaster } from "sonner";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -21,11 +22,14 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{ children: React.ReactNode }>) {
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
       <body className={`${inter.variable} ${poppins.variable} antialiased`}>
-        <AuthProvider>{children}</AuthProvider>
+        <ReduxProviders>{children}</ReduxProviders>
+        <Toaster richColors position="top-right" />
       </body>
     </html>
   );

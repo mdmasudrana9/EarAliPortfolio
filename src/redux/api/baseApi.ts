@@ -57,10 +57,12 @@
 //   baseQuery: baseQueryWithRefreshToken,
 //   endpoints: () => ({}),
 // });
+import { TAG_TYPES } from "@/redux/constants/tagTypes";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const baseApi = createApi({
   reducerPath: "baseApi",
-  baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_BASE_API_URL }),
+  baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_BASE_API_URL }),
+  tagTypes: Object.values(TAG_TYPES),
   endpoints: () => ({}),
 });

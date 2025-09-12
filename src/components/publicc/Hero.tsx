@@ -1,3 +1,5 @@
+'use client";';
+
 import LifeNotesSubscription from "@/components/publicc/LifeNotesSubscription";
 import Image from "next/image";
 import Link from "next/link";

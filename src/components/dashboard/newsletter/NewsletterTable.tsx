@@ -1,7 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import {
   Table,
   TableBody,
@@ -10,80 +17,78 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Trash2, Mail, MoreHorizontal } from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { useGetAllNewslettersQuery } from "@/redux/features/newsletter/newsletterApi";
+import { INewsletter } from "@/redux/features/newsletter/types";
+import { Mail, MoreHorizontal, Trash2 } from "lucide-react";
 
 // Sample newsletter data
-const initialSubscribers = [
-  {
-    id: 1,
-    email: "john.doe@example.com",
-    status: "active",
-    subscribedAt: "2024-01-15",
-  },
-  {
-    id: 2,
-    email: "jane.smith@example.com",
-    status: "active",
-    subscribedAt: "2024-01-20",
-  },
-  {
-    id: 3,
-    email: "mike.johnson@example.com",
-    status: "pending",
-    subscribedAt: "2024-02-01",
-  },
-  {
-    id: 4,
-    email: "sarah.wilson@example.com",
-    status: "active",
-    subscribedAt: "2024-02-10",
-  },
-  {
-    id: 5,
-    email: "david.brown@example.com",
-    status: "unsubscribed",
-    subscribedAt: "2024-01-05",
-  },
-  {
-    id: 6,
-    email: "sarah.wilson@example.com",
-    status: "active",
-    subscribedAt: "2024-02-10",
-  },
-  {
-    id: 7,
-    email: "david.brown@example.com",
-    status: "unsubscribed",
-    subscribedAt: "2024-01-05",
-  },
-  {
-    id: 8,
-    email: "sarah.wilson@example.com",
-    status: "active",
-    subscribedAt: "2024-02-10",
-  },
-  {
-    id: 9,
-    email: "david.brown@example.com",
-    status: "unsubscribed",
-    subscribedAt: "2024-01-05",
-  },
-];
+// const initialSubscribers = [
+//   {
+//     id: 1,
+//     email: "john.doe@example.com",
+//     status: "active",
+//     subscribedAt: "2024-01-15",
+//   },
+//   {
+//     id: 2,
+//     email: "jane.smith@example.com",
+//     status: "active",
+//     subscribedAt: "2024-01-20",
+//   },
+//   {
+//     id: 3,
+//     email: "mike.johnson@example.com",
+//     status: "pending",
+//     subscribedAt: "2024-02-01",
+//   },
+//   {
+//     id: 4,
+//     email: "sarah.wilson@example.com",
+//     status: "active",
+//     subscribedAt: "2024-02-10",
+//   },
+//   {
+//     id: 5,
+//     email: "david.brown@example.com",
+//     status: "unsubscribed",
+//     subscribedAt: "2024-01-05",
+//   },
+//   {
+//     id: 6,
+//     email: "sarah.wilson@example.com",
+//     status: "active",
+//     subscribedAt: "2024-02-10",
+//   },
+//   {
+//     id: 7,
+//     email: "david.brown@example.com",
+//     status: "unsubscribed",
+//     subscribedAt: "2024-01-05",
+//   },
+//   {
+//     id: 8,
+//     email: "sarah.wilson@example.com",
+//     status: "active",
+//     subscribedAt: "2024-02-10",
+//   },
+//   {
+//     id: 9,
+//     email: "david.brown@example.com",
+//     status: "unsubscribed",
+//     subscribedAt: "2024-01-05",
+//   },
+// ];
 
 export function NewsletterTable() {
-  const [subscribers, setSubscribers] = useState(initialSubscribers);
+  const { data } = useGetAllNewslettersQuery("");
+  const initialSubscribers: INewsletter[] = data?.data ?? [];
+  // const [subscribers, setSubscribers] = useState(initialSubscribers);
 
-  const handleDelete = (id: number) => {
-    setSubscribers(subscribers.filter((sub) => sub.id !== id));
-  };
+  // console.log("data :>> ", data?.data);
+
+  // const handleDelete = (id: number) => {
+  //   setSubscribers(subscribers.filter((sub) => sub.id !== id));
+  // };
 
   const handleSendEmail = (email: string) => {
     // Placeholder for email functionality
@@ -116,7 +121,7 @@ export function NewsletterTable() {
         <CardTitle className="flex items-center justify-between">
           Newsletter Subscribers
           <Badge variant="outline" className="ml-2">
-            {subscribers.length} total
+            {initialSubscribers.length} total
           </Badge>
         </CardTitle>
       </CardHeader>
@@ -133,15 +138,18 @@ export function NewsletterTable() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {subscribers.map((subscriber, index) => (
+              {initialSubscribers.map((subscriber, index) => (
                 <TableRow key={subscriber.id}>
                   <TableCell className="font-medium">{index + 1}</TableCell>
                   <TableCell className="font-mono text-sm">
                     {subscriber.email}
                   </TableCell>
-                  <TableCell>{getStatusBadge(subscriber.status)}</TableCell>
+                  <TableCell>
+                    {/* {getStatusBadge(subscriber.createdAt)} */}
+                    Subscribe
+                  </TableCell>
                   <TableCell className="text-muted-foreground">
-                    {new Date(subscriber.subscribedAt).toLocaleDateString()}
+                    {new Date(subscriber.createdAt).toLocaleDateString()}
                   </TableCell>
                   <TableCell className="text-right">
                     <div className="flex items-center justify-end gap-2">
@@ -149,7 +157,7 @@ export function NewsletterTable() {
                         variant="outline"
                         size="sm"
                         onClick={() => handleSendEmail(subscriber.email)}
-                        disabled={subscriber.status === "unsubscribed"}
+                        disabled={subscriber.id === "unsubscribed"}
                       >
                         <Mail className="h-4 w-4" />
                       </Button>
@@ -162,13 +170,13 @@ export function NewsletterTable() {
                         <DropdownMenuContent align="end">
                           <DropdownMenuItem
                             onClick={() => handleSendEmail(subscriber.email)}
-                            disabled={subscriber.status === "unsubscribed"}
+                            disabled={subscriber.createdAt === "unsubscribed"}
                           >
                             <Mail className="h-4 w-4 mr-2" />
                             Send Email
                           </DropdownMenuItem>
                           <DropdownMenuItem
-                            onClick={() => handleDelete(subscriber.id)}
+                            // onClick={() => handleDelete(subscriber.id)}
                             className="text-destructive"
                           >
                             <Trash2 className="h-4 w-4 mr-2" />

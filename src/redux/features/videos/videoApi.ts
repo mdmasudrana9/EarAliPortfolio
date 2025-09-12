@@ -1,3 +1,4 @@
+import { TAG_TYPES } from "@/redux/constants/tagTypes";
 import { baseApi } from "../../api/baseApi";
 
 const videoApi = baseApi.injectEndpoints({
@@ -8,12 +9,15 @@ const videoApi = baseApi.injectEndpoints({
         method: "POST",
         body: data,
       }),
+      invalidatesTags: [TAG_TYPES.Video], // create এর পর cached data refresh করার জন্য
     }),
     getAllVideos: builder.query({
       query: () => "/videos",
+      providesTags: [TAG_TYPES.Video],
     }),
     getVideoById: builder.query({
       query: (id) => `/videos/${id}`,
+      providesTags: [TAG_TYPES.Video],
     }),
     updateVideo: builder.mutation({
       query: ({ id, ...data }) => ({
@@ -21,12 +25,14 @@ const videoApi = baseApi.injectEndpoints({
         method: "PATCH",
         body: data,
       }),
+      invalidatesTags: [TAG_TYPES.Video],
     }),
     deleteVideo: builder.mutation({
       query: (id) => ({
         url: `/videos/${id}`,
         method: "DELETE",
       }),
+      invalidatesTags: [TAG_TYPES.Video],
     }),
   }),
 });
