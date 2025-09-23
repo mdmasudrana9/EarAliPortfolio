@@ -14,7 +14,7 @@ export const articleApi = baseApi.injectEndpoints({
         method: "POST",
         body,
       }),
-      // invalidatesTags: ["Article"],
+      invalidatesTags: ["Article"], // ✅ auto reload
     }),
 
     // CREATE: Publish Article
@@ -27,19 +27,25 @@ export const articleApi = baseApi.injectEndpoints({
         method: "POST",
         body,
       }),
-      // invalidatesTags: ["Article"],
+      invalidatesTags: ["Article"], // ✅ auto reload
     }),
 
     // READ: Get All Articles
     getAllArticles: build.query<{ data: Article[] }, void>({
       query: () => "/articles",
-      // providesTags: ["Article"],
+      providesTags: ["Article"], // ✅ cache tag
+    }),
+
+    // READ: Get All Published Articles
+    getAllPublishedArticles: build.query<{ data: Article[] }, void>({
+      query: () => "/articles/published",
+      providesTags: ["Article"], // ✅ cache tag
     }),
 
     // READ: Get Single Article
     getArticleById: build.query<{ data: Article }, string>({
       query: (id) => `/articles/${id}`,
-      // providesTags: ["Article"],
+      providesTags: ["Article"], // ✅ cache tag
     }),
 
     // UPDATE: Update Article
@@ -52,10 +58,9 @@ export const articleApi = baseApi.injectEndpoints({
         method: "PATCH",
         body,
       }),
-      // invalidatesTags: ["Article"],
+      invalidatesTags: ["Article"], // ✅ auto reload
     }),
 
-    // DELETE: Delete Article
     deleteArticle: build.mutation<
       { success: boolean; message: string },
       string
@@ -64,7 +69,18 @@ export const articleApi = baseApi.injectEndpoints({
         url: `/articles/${id}`,
         method: "DELETE",
       }),
-      // invalidatesTags: ["Article"],
+      invalidatesTags: ["Article"], // ✅ auto reload
+    }),
+
+    updateStatusArticle: build.mutation<
+      { success: boolean; message: string; data: Article },
+      string
+    >({
+      query: (id) => ({
+        url: `/articles/${id}/publish`,
+        method: "PATCH",
+      }),
+      invalidatesTags: ["Article"], // ✅ auto reload
     }),
   }),
 
@@ -75,7 +91,9 @@ export const {
   useSaveDraftMutation,
   usePublishArticleMutation,
   useGetAllArticlesQuery,
+  useGetAllPublishedArticlesQuery,
   useGetArticleByIdQuery,
   useUpdateArticleMutation,
   useDeleteArticleMutation,
+  useUpdateStatusArticleMutation,
 } = articleApi;

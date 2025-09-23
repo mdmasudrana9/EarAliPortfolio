@@ -11,53 +11,79 @@ interface ArticlesCardProps {
   article: IArticle;
 }
 
-export function ArticlesCard({ article }: ArticlesCardProps) {
-  const stripHtml = (html: string) => {
-    if (!html) return "";
-    return html.replace(/<[^>]+>/g, "");
-  };
+// প্রথম image বের করার helper
+const extractFirstImage = (html: string): string | null => {
+  if (!html) return null;
+  const match = html.match(/<img[^>]+src="([^">]+)"/);
+  return match ? match[1] : null;
+};
 
-  // const excerpt = stripHtml(article.content).slice(0, 120) + "...";
+// text excerpt বের করার helper
+const stripHtml = (html: string) => {
+  if (!html) return "";
+  return html.replace(/<[^>]+>/g, "");
+};
+
+// পড়তে সময় কত লাগবে (word count দিয়ে approx calculation)
+const calculateReadTime = (html: string): number => {
+  const text = stripHtml(html);
+  const words = text.trim().split(/\s+/).length;
+  return Math.ceil(words / 200); // 200 words/min
+};
+
+export function ArticlesCard({ article }: ArticlesCardProps) {
+  const firstImage = extractFirstImage(article.content);
+  const excerpt = stripHtml(article.content).slice(0, 120) + "...";
+  const readTime = calculateReadTime(article.content);
 
   return (
     <Card className="group overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-card">
       <Link href={`/articles/${article._id}`}>
+        {/* Image */}
         <div className="relative h-48 overflow-hidden">
           <Image
             width={400}
             height={200}
-            src="/ali-abdaal-working-at-desk-with-books.png"
+            src={
+              firstImage ||
+              "https://via.placeholder.com/400x200.png?text=No+Image"
+            }
             alt={article.title}
-            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+            className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
-          <Badge className="absolute top-3 left-3 bg-primary text-primary-foreground font-medium">
-            {article.status}
-          </Badge>
         </div>
 
         {/* Content */}
-        <div className="p-6">
+        <div className="p-4 space-y-3">
           {/* Title */}
-          <h3 className="text-xl font-bold text-primary mb-3 line-clamp-2 group-hover:text-accent transition-colors duration-200">
+          <h3 className="text-lg font-semibold line-clamp-2 group-hover:text-primary transition-colors">
             {article.title}
           </h3>
+
           {/* Excerpt */}
-          {/* <p className="text-muted-foreground text-sm leading-relaxed mb-4 line-clamp-3">
+          <p className="text-sm text-muted-foreground line-clamp-3">
             {excerpt}
-          </p> */}
-          {/* Meta */}
-          <div className="flex items-center justify-between text-xs text-muted-foreground">
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-1">
-                <Calendar className="w-3 h-3" />
-                <span>{new Date(article.createdAt).toLocaleDateString()}</span>
-              </div>
+          </p>
+
+          {/* Meta Info */}
+          <div className="flex items-center gap-4 text-xs text-muted-foreground mt-2">
+            <div className="flex items-center gap-1">
+              <Calendar className="h-4 w-4" />
+              {new Date(article.createdAt).toLocaleDateString()}
             </div>
             <div className="flex items-center gap-1">
-              <Clock className="w-3 h-3" />
-              <span>5 min read</span>
+              <Clock className="h-4 w-4" />
+              {readTime} min read
             </div>
+          </div>
+
+          {/* Status badge */}
+          <div className="mt-2">
+            <Badge
+              variant={article.status === "published" ? "default" : "secondary"}
+            >
+              {article.status}
+            </Badge>
           </div>
         </div>
       </Link>

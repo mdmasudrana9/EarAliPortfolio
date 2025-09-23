@@ -9,7 +9,7 @@ const VideoList = () => {
   const videos: Video[] = data?.data || [];
   return (
     <div className=" p-4 max-w-7xl mx-auto my-10">
-      <h2 className="text-2xl lg:text-4xl font-serif font-bold mb-4">
+      <h2 className="text-2xl lg:text-4xl font-serif font-bold mb-10">
         Featured Videos
       </h2>
 
@@ -19,11 +19,15 @@ const VideoList = () => {
             key={video._id}
             className="bg-white rounded shadow-md border p-4"
           >
-            <h3 className="font-semibold mb-1">{video.title}</h3>
-            <p className="text-sm text-muted-foreground mb-2">
-              {video.description}
-            </p>
             <YouTubePlayer videoUrl={video.videoUrl} />
+            <div className="mt-4">
+              <h3 className="font-semibold text-2xl font-serif  mb-1">
+                {video.title}
+              </h3>
+              <p className="text-sm font-serif text-muted-foreground mb-2">
+                {video.description}
+              </p>
+            </div>
           </div>
         ))}
       </div>

@@ -1,10 +1,12 @@
 import Link from "next/link";
 import { ArrowRight, Play, Settings, FileText, DollarSign } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
+import { link } from "fs";
 
 const services = [
   {
     title: "Grow a YouTube Channel",
+    linkref: "/videos",
     description:
       "Learn how to start and grow a life-changing YouTube channel based on my years of experience.",
     colorBg: "bg-orange-100",
@@ -68,7 +70,8 @@ const HelpSection = () => {
           {services.map((service, index) => {
             const Icon = service.icon;
             return (
-              <Card
+              <Link
+                href={service.linkref ?? "#"}
                 key={index}
                 className={`${service.colorBg} border-0 p-6 hover:shadow-2xl hover:-translate-y-2 hover:scale-105 transition-all duration-300 ease-out cursor-pointer group`}
               >
@@ -109,7 +112,7 @@ const HelpSection = () => {
                     <ArrowRight className="w-4 h-4 ml-2 group-hover:ml-3 transition-all duration-300" />
                   </Link>
                 </CardContent>
-              </Card>
+              </Link>
             );
           })}
         </div>

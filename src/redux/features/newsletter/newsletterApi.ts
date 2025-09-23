@@ -13,7 +13,7 @@ const newsletterApi = baseApi.injectEndpoints({
     }),
     getAllNewsletters: builder.query({
       query: () => "/newsletter",
-      providesTags: [TAG_TYPES.Newsletter], // 🔹 এখানে যোগ করতে হবে
+      providesTags: [TAG_TYPES.Newsletter],
     }),
     getNewsletterById: builder.query({
       query: (id) => `/newsletter/${id}`,

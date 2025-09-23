@@ -1,11 +1,12 @@
 "use client";
 
 import { ArticlesCard } from "@/components/article/ArticleCard";
-import { useGetAllArticlesQuery } from "@/redux/features/articles/articleApi";
+import { useGetAllPublishedArticlesQuery } from "@/redux/features/articles/articleApi";
 import { IArticle } from "@/redux/features/articles/types";
 
 const ShowArticlesPage = () => {
-  const { data } = useGetAllArticlesQuery();
+  const { data } = useGetAllPublishedArticlesQuery();
+  console.log("data :>> ", data);
   const Articles: IArticle[] = data?.data ?? [];
 
   if (!Articles) {

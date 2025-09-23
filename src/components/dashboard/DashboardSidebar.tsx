@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import {
   BarChart3,
   FileText,
+  Folder,
   Home,
   LayoutDashboard,
   Mail,
@@ -48,6 +49,12 @@ const navItems: NavItems[] = [
     title: "Articles",
     href: "/dashboard/articles",
     icon: FileText,
+    roles: ["admin"],
+  },
+  {
+    title: "Manage Articles",
+    href: "/dashboard/manage-articles",
+    icon: Folder,
     roles: ["admin"],
   },
   {

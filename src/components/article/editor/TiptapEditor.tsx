@@ -11,6 +11,7 @@ import BulletList from "@tiptap/extension-bullet-list";
 import OrderedList from "@tiptap/extension-ordered-list";
 import Blockquote from "@tiptap/extension-blockquote";
 import Heading from "@tiptap/extension-heading";
+import Image from "@tiptap/extension-image";
 
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -89,6 +90,12 @@ export function TiptapEditor({
         HTMLAttributes: { class: "text-primary underline" },
       }),
       Placeholder.configure({ placeholder }),
+      Image.configure({
+        inline: false,
+        HTMLAttributes: {
+          class: "rounded-md max-w-full h-auto mx-auto",
+        },
+      }),
     ],
     content: content || "<p></p>", // initial content from Redux (may be empty)
     onUpdate: ({ editor }) => {
@@ -325,6 +332,19 @@ export function TiptapEditor({
             >
               <Italic className="h-4 w-4" />
             </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => {
+                const url = window.prompt("Enter image URL");
+                if (url) {
+                  editor.chain().focus().setImage({ src: url }).run();
+                }
+              }}
+            >
+              🖼️
+            </Button>
+
             <Button
               variant={editor.isActive("code") ? "default" : "ghost"}
               size="sm"
