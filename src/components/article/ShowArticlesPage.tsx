@@ -5,11 +5,10 @@ import { useGetAllPublishedArticlesQuery } from "@/redux/features/articles/artic
 import { IArticle } from "@/redux/features/articles/types";
 
 const ShowArticlesPage = () => {
-  const { data } = useGetAllPublishedArticlesQuery();
-  console.log("data :>> ", data);
+  const { data, isLoading } = useGetAllPublishedArticlesQuery();
   const Articles: IArticle[] = data?.data ?? [];
 
-  if (!Articles) {
+  if (isLoading) {
     return <p className="text-center text-muted-foreground">Loading...</p>;
   }
 
@@ -20,7 +19,13 @@ const ShowArticlesPage = () => {
   }
 
   return (
-    <div className="p-4 max-w-7xl mx-auto grid grid-cols-3 gap-6">
+    <div
+      className="
+        p-4 max-w-7xl mx-auto 
+        grid gap-6
+        grid-cols-1 sm:grid-cols-2 lg:grid-cols-3
+      "
+    >
       {Articles.map((article) => (
         <ArticlesCard key={article._id} article={article} />
       ))}

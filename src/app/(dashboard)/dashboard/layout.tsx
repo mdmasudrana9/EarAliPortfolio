@@ -31,10 +31,11 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
     <div className="min-h-screen bg-background">
       <DashboardHeader />
       <div className="flex">
+        {/* Sidebar */}
         <DashboardSidebar />
-        <main className="flex-1 p-6">
-          <div className="container mx-auto pl-6">{children}</div>
-        </main>
+
+        {/* Main content */}
+        <main className="flex-1 md:ml-64 mt-10 p-4">{children}</main>
       </div>
     </div>
   );

@@ -100,7 +100,7 @@ const ArticleDetailsPage = ({ article }: { article: IArticle }) => {
         </div>
 
         {/* Cover Image */}
-        <div className="relative w-full h-[400px] mt-8 max-w-4xl mx-auto">
+        <div className="relative p-4 w-full h-[400px] mt-8 max-w-4xl mx-auto">
           <Image
             height={400}
             width={800}

@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -30,12 +31,20 @@ export function NewsletterTable() {
   const initialSubscribers: INewsletter[] = data?.data ?? [];
   const [deleteNewsletter] = useDeleteNewsletterMutation();
 
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 10;
+
+  const totalPages = Math.ceil(initialSubscribers.length / itemsPerPage);
+  const paginatedSubscribers = initialSubscribers.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
   const handleDelete = async (id: string) => {
-    console.log("id :>> ", id);
     try {
       await deleteNewsletter(id).unwrap();
       toast.success("Newsletter deleted successfully!");
-      // Optional: refetch list or update state
     } catch (error) {
       console.error("Failed to delete newsletter:", error);
       toast.error("Failed to delete newsletter!");
@@ -43,41 +52,39 @@ export function NewsletterTable() {
   };
 
   const handleSendEmail = (email: string) => {
-    // Placeholder for email functionality
     alert(`Sending email to ${email}`);
   };
 
   return (
-    <Card>
+    <Card className="overflow-hidden">
       <CardHeader>
-        <CardTitle className="flex items-center justify-between">
-          Newsletter Subscribers
-          <Badge variant="outline" className="ml-2">
-            {initialSubscribers.length} total
-          </Badge>
+        <CardTitle className="flex items-center justify-between flex-wrap gap-2">
+          <span className="text-lg font-semibold">Newsletter Subscribers</span>
+          <Badge variant="outline">{initialSubscribers.length} total</Badge>
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <div className=" border">
-          <Table>
+        {/* Desktop Table */}
+        <div className="hidden md:block w-full overflow-x-auto">
+          <Table className="min-w-[600px] border rounded-lg">
             <TableHeader>
               <TableRow>
                 <TableHead className="w-16">S.No</TableHead>
                 <TableHead>Email</TableHead>
-
                 <TableHead>Subscription Date</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {initialSubscribers.map((subscriber, index) => (
+              {paginatedSubscribers.map((subscriber, index) => (
                 <TableRow key={subscriber._id}>
-                  <TableCell className="font-medium">{index + 1}</TableCell>
-                  <TableCell className="font-mono text-sm">
+                  <TableCell className="font-medium">
+                    {(currentPage - 1) * itemsPerPage + index + 1}
+                  </TableCell>
+                  <TableCell className="font-mono text-sm break-all">
                     {subscriber.email}
                   </TableCell>
-
-                  <TableCell className="text-muted-foreground">
+                  <TableCell className="text-muted-foreground whitespace-nowrap">
                     {new Date(subscriber.createdAt).toLocaleDateString()}
                   </TableCell>
                   <TableCell className="text-right">
@@ -86,7 +93,6 @@ export function NewsletterTable() {
                         variant="outline"
                         size="sm"
                         onClick={() => handleSendEmail(subscriber.email)}
-                        disabled={subscriber._id === "unsubscribed"}
                       >
                         <Mail className="h-4 w-4" />
                       </Button>
@@ -99,7 +105,6 @@ export function NewsletterTable() {
                         <DropdownMenuContent align="end">
                           <DropdownMenuItem
                             onClick={() => handleSendEmail(subscriber.email)}
-                            disabled={subscriber.createdAt === "unsubscribed"}
                           >
                             <Mail className="h-4 w-4 mr-2" />
                             Send Email
@@ -120,6 +125,75 @@ export function NewsletterTable() {
             </TableBody>
           </Table>
         </div>
+
+        {/* Mobile Cards */}
+        <div className="md:hidden space-y-4">
+          {paginatedSubscribers.map((subscriber, index) => (
+            <div
+              key={subscriber._id}
+              className="border rounded-lg p-4 shadow-sm bg-card"
+            >
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-muted-foreground">
+                  #{(currentPage - 1) * itemsPerPage + index + 1}
+                </span>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="sm">
+                      <MoreHorizontal className="h-4 w-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem
+                      onClick={() => handleSendEmail(subscriber.email)}
+                    >
+                      <Mail className="h-4 w-4 mr-2" />
+                      Send Email
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => handleDelete(subscriber._id)}
+                      className="text-destructive"
+                    >
+                      <Trash2 className="h-4 w-4 mr-2" />
+                      Delete
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+              <p className="font-mono text-sm break-all mt-2">
+                {subscriber.email}
+              </p>
+              <p className="text-xs text-muted-foreground mt-1">
+                {new Date(subscriber.createdAt).toLocaleDateString()}
+              </p>
+            </div>
+          ))}
+        </div>
+
+        {/* Pagination Controls */}
+        {totalPages > 1 && (
+          <div className="flex items-center justify-between mt-4">
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={currentPage === 1}
+              onClick={() => setCurrentPage((p) => p - 1)}
+            >
+              Previous
+            </Button>
+            <span className="text-sm">
+              Page {currentPage} of {totalPages}
+            </span>
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={currentPage === totalPages}
+              onClick={() => setCurrentPage((p) => p + 1)}
+            >
+              Next
+            </Button>
+          </div>
+        )}
       </CardContent>
     </Card>
   );

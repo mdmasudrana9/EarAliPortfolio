@@ -5,7 +5,7 @@ import { useAuth } from "@/contexts/auth-context";
 import { ResourceBrowserDialog } from "@/utils/ResourceBrowserDialog";
 import Link from "next/link";
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { LogIn, Menu, X } from "lucide-react";
 import clsx from "clsx";
 
 const Navbar = () => {
@@ -47,7 +47,9 @@ const Navbar = () => {
       {/* CTA Button (Desktop only) */}
       <div className="hidden md:block">
         <Button className="bg-orange-400 hover:bg-orange-500 text-white font-semibold px-6 py-2 rounded-full">
-          Join 510K+ Subscribers
+          <Link href="/login" className="hidden md:block">
+            <LogIn />
+          </Link>
         </Button>
       </div>
 

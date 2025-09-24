@@ -206,7 +206,7 @@ export function TiptapEditor({
 
   return (
     <div className="Container mx-auto flex gap-6">
-      <div className="w-64 flex-shrink-0">
+      <div className="w-64 hidden lg:block flex-shrink-0">
         <Card className="p-4 sticky top-4">
           <div className="flex items-center gap-2 mb-4">
             <FileText className="h-5 w-5 text-primary" />
