@@ -55,16 +55,42 @@ export function NewsletterTable() {
     alert(`Sending email to ${email}`);
   };
 
+  // ✅ Send email to all subscribers
+  const handleSendAll = () => {
+    if (initialSubscribers.length === 0) {
+      toast.error("No subscribers found!");
+      return;
+    }
+
+    const allEmails = initialSubscribers.map((s) => s.email);
+    // এখানে API call করতে পারো -> sendNewsletterToAll(allEmails)
+    console.log("Sending email to:", allEmails);
+
+    toast.success(`Emails sent to ${allEmails.length} subscribers!`);
+  };
+
   return (
     <Card className="overflow-hidden">
-      <CardHeader>
-        <CardTitle className="flex items-center justify-between flex-wrap gap-2">
+      <CardHeader className="flex items-center justify-between">
+        <CardTitle className="flex items-center gap-2 flex-wrap">
           <span className="text-lg font-semibold">Newsletter Subscribers</span>
           <Badge variant="outline">{initialSubscribers.length} total</Badge>
         </CardTitle>
+
+        {/* ✅ Send Email to All Button */}
+        <Button
+          variant="outline"
+          size="sm"
+          className="flex items-center gap-2"
+          onClick={handleSendAll}
+        >
+          <Mail className="h-4 w-4" />
+          Send to All
+        </Button>
       </CardHeader>
+
       <CardContent>
-        {/* Desktop Table */}
+        {/* Table (Desktop) */}
         <div className="hidden md:block w-full overflow-x-auto">
           <Table className="min-w-[600px] border rounded-lg">
             <TableHeader>
