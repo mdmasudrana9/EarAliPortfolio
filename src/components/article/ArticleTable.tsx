@@ -19,6 +19,7 @@ import {
 import { IArticle } from "@/redux/features/articles/types";
 import { ChevronLeft, ChevronRight, Edit, Trash2, Upload } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -29,6 +30,8 @@ export default function ArticleTable() {
   // ✅ RTK Query hook
   const { data, isLoading } = useGetAllArticlesQuery();
   const Articles: IArticle[] = data?.data ?? [];
+
+  const router = useRouter();
 
   // ✅ Mutations
   const [UpdateStatusArticle] = useUpdateStatusArticleMutation();
@@ -65,7 +68,7 @@ export default function ArticleTable() {
 
   const handleEdit = (id: string) => {
     console.log("Editing article:", id);
-    // এখানে আপনি navigate করতে পারেন যেমন: router.push(`/articles/edit/${id}`)
+    router.push(`/dashboard/articles/edit/${id}`);
   };
 
   const goToPreviousPage = () => {
