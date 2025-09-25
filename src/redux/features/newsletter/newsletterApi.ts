@@ -34,6 +34,13 @@ const newsletterApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [TAG_TYPES.Newsletter],
     }),
+    sendNewsletterToAll: builder.mutation({
+      query: (data) => ({
+        url: "/newsletter/send-all",
+        method: "POST",
+        body: data, // { subject, html }
+      }),
+    }),
   }),
 });
 
@@ -43,4 +50,5 @@ export const {
   useGetNewsletterByIdQuery,
   useUpdateNewsletterMutation,
   useDeleteNewsletterMutation,
+  useSendNewsletterToAllMutation,
 } = newsletterApi;

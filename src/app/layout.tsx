@@ -3,6 +3,7 @@ import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
 import { ReduxProviders } from "@/Providers/ReduxProviders";
 import { Toaster } from "sonner";
+import AOSWrapper from "@/utils/AOSWrapper";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -28,7 +29,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} ${poppins.variable} antialiased`}>
-        <ReduxProviders>{children}</ReduxProviders>
+        <ReduxProviders>
+          <AOSWrapper>{children}</AOSWrapper>
+        </ReduxProviders>
         <Toaster richColors position="top-right" />
       </body>
     </html>

@@ -15,7 +15,11 @@ const JournalingSection = () => {
         <div className="mx-auto max-w-7xl relative">
           <div className="grid gap-12 lg:grid-cols-2 lg:gap-16 items-center">
             {/* Left Content */}
-            <div className="space-y-8 flex flex-col items-center lg:items-start justify-center text-center lg:text-left">
+            <div
+              data-aos="fade-up"
+              data-aos-duration="3000"
+              className="space-y-8 flex flex-col items-center lg:items-start justify-center text-center lg:text-left"
+            >
               <div className="space-y-4">
                 <h1 className="text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent animate-in fade-in slide-in-from-bottom-4 duration-1000">
                   My Journalism Prompts Template
@@ -65,7 +69,11 @@ const JournalingSection = () => {
             </div>
 
             {/* Right Content - Laptop Mockup */}
-            <div className="relative animate-in fade-in slide-in-from-right-8 duration-1000 delay-600">
+            <div
+              data-aos="fade-up"
+              data-aos-anchor-placement="center-bottom"
+              className="relative animate-in fade-in slide-in-from-right-8 duration-1000 delay-600"
+            >
               <div className="mx-auto max-w-sm">
                 <div className="rounded-lg border shadow-2xl transition-all duration-500 hover:shadow-3xl hover:scale-105 hover:-rotate-1 group">
                   <div className="rounded-md bg-gray-100 p-4 sm:p-8 transition-all duration-300 group-hover:bg-gray-50">
@@ -93,7 +101,7 @@ const JournalingSection = () => {
         <div className="mx-auto max-w-7xl relative">
           <div className="grid gap-12 lg:grid-cols-2 lg:gap-16 items-center">
             {/* Left Content */}
-            <div className="space-y-6">
+            <div data-aos="fade-up-left" className="space-y-6">
               <div className="space-y-4 text-center lg:text-left">
                 <h2 className="text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">
                   Hey, I&apos;m{" "}
@@ -134,7 +142,7 @@ const JournalingSection = () => {
             </div>
 
             {/* Right Content - Photo Collage */}
-            <div className="relative">
+            <div data-aos="zoom-in-up" className="relative">
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-4">
                   <Card className="overflow-hidden transition-all duration-500 hover:scale-105 hover:shadow-xl hover:-rotate-1 group">

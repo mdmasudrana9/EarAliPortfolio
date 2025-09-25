@@ -21,6 +21,7 @@ import {
 import {
   useDeleteNewsletterMutation,
   useGetAllNewslettersQuery,
+  useSendNewsletterToAllMutation,
 } from "@/redux/features/newsletter/newsletterApi";
 import { INewsletter } from "@/redux/features/newsletter/types";
 import { Mail, MoreHorizontal, Trash2 } from "lucide-react";
@@ -28,6 +29,7 @@ import { toast } from "sonner";
 
 export function NewsletterTable() {
   const { data } = useGetAllNewslettersQuery("");
+  const [sendNewsletterToAll] = useSendNewsletterToAllMutation();
   const initialSubscribers: INewsletter[] = data?.data ?? [];
   const [deleteNewsletter] = useDeleteNewsletterMutation();
 
@@ -56,17 +58,35 @@ export function NewsletterTable() {
   };
 
   // ✅ Send email to all subscribers
-  const handleSendAll = () => {
-    if (initialSubscribers.length === 0) {
-      toast.error("No subscribers found!");
-      return;
+  const handleSendAll = async () => {
+    try {
+      if (!data?.data?.length) {
+        toast.error("No subscribers found!");
+        return;
+      }
+
+      await sendNewsletterToAll({
+        subject: "📢 Our Latest Newsletter",
+        html: `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; background-color: #f9f9f9; border-radius: 10px; border: 1px solid #e0e0e0;">
+      <h1 style="color: #333; text-align: center;">Hello Subscriber!</h1>
+      <p style="font-size: 16px; color: #555; line-height: 1.6;">
+        We hope you're doing great! Here's our latest update 🚀
+      </p>
+      <p style="text-align: center; margin-top: 30px;">
+        <a href="https://yourwebsite.com" style="display: inline-block; padding: 12px 25px; background-color: #4CAF50; color: #fff; text-decoration: none; border-radius: 5px;">
+          Check it out
+        </a>
+      </p>
+    </div>
+  `,
+      }).unwrap();
+
+      toast.success(`Emails sent to ${data.data.length} subscribers!`);
+    } catch (error) {
+      toast.error("Failed to send emails!");
+      console.error(error);
     }
-
-    const allEmails = initialSubscribers.map((s) => s.email);
-    // এখানে API call করতে পারো -> sendNewsletterToAll(allEmails)
-    console.log("Sending email to:", allEmails);
-
-    toast.success(`Emails sent to ${allEmails.length} subscribers!`);
   };
 
   return (
