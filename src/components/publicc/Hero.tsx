@@ -10,15 +10,15 @@ const Hero = () => {
       <div className="relative z-10  md:px-6 lg:py-16">
         <div className="grid lg:grid-cols-2 p-4 gap-8 md:gap-16 items-center lg:mb-16">
           <div data-aos="fade-right" className="relative">
-            <div className="relative  w-40 h-40 md:w-60 md:h-60 lg:w-100 lg:h-90 mx-auto">
+            <div className="relative  w-40 h-40 md:w-60 md:h-60 lg:w-90 lg:h-90 mx-auto">
               {/* Yellow decorative background */}
-              <div className="absolute animate-pulse inset-0 bg-yellow-300 rounded-full transform rotate-12"></div>
-              <div className="absolute animate-pulse inset-4 bg-yellow-200 rounded-full transform -rotate-6"></div>
+              {/* <div className="absolute animate-pulse inset-0 bg-yellow-300 rounded-full transform rotate-12"></div> */}
+              {/* <div className="absolute animate-pulse inset-4 bg-yellow-200 rounded-full transform -rotate-6"></div> */}
 
               {/* Profile photo */}
               <div className="absolute inset-8 rounded-full overflow-hidden bg-white">
                 <Image
-                  src="/image.png"
+                  src="/image1.png"
                   alt="Ali Abadan"
                   className="w-full h-full object-cover"
                   width={300}
@@ -30,23 +30,28 @@ const Hero = () => {
 
           <div
             data-aos="fade-left"
-            className="text-center flex flex-col items-center justify-center"
+            className="text-center flex flex-col items-center justify-center px-4 py-12"
           >
-            <h1 className="text-4xl md:text-5xl mlg:text-7xl font-semibold text-gray-900 mb-4">
+            <h1 className="text-4xl md:text-6xl font-semibold font-serif mb-6 bg-gradient-to-r from-blue-600 via-purple-600 to-pink-500 bg-clip-text text-transparent">
               Hey Friends <span className="inline-block ">👋</span>
             </h1>
 
-            <p className="md:text-2xl text-lg font-sans md:w-lg xl:w-xl text-gray-700 leading-relaxed mb-8">
-              I&apos;m Ear Ali. I&apos;m a Doctor turned Entrepreneur, YouTuber,
-              and the author of the New York Times bestseller,
+            <p className="max-w-2xl md:text-2xl text-lg text-gray-700 leading-relaxed mb-8">
+              I&apos;m <span className="font-bold text-gray-900">Ear Ali</span>.
+              I&apos;m a{" "}
+              <span className="font-semibold text-blue-600">Doctor</span> turned{" "}
+              <span className="font-semibold text-purple-600">
+                Entrepreneur
+              </span>
+              , <span className="font-semibold text-pink-600">YouTuber</span>,
+              and the author of the{" "}
               <Link
                 href={`/`}
-                className="font-semibold hover:underline  decoration-blue-400"
+                className="font-semibold text-indigo-600 hover:text-indigo-800 hover:underline decoration-indigo-400 transition-colors"
               >
-                {" "}
                 Feel-Good Productivity
-              </Link>
-              .
+              </Link>{" "}
+              — a New York Times bestseller.
             </p>
           </div>
         </div>

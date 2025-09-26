@@ -3,10 +3,10 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useCreateNewsletterMutation } from "@/redux/features/newsletter/newsletterApi";
-import { Star, TrendingUp } from "lucide-react";
+import { Send, SendHorizonal, Star } from "lucide-react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { toast } from "sonner";
 
+import { toast } from "sonner";
 interface FormValues {
   email: string;
 }
@@ -40,7 +40,7 @@ export default function LifeNotesSubscription() {
                   Subscribe to
                 </h1>
                 <div className="p-2 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl shadow-lg">
-                  <TrendingUp className="lg:w-6 lg:h-6 text-white" />
+                  <Send className="text-white" />
                 </div>
               </div>
 
