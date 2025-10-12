@@ -1,20 +1,24 @@
-'use client";';
+"use client";
 
 import LifeNotesSubscription from "@/components/publicc/LifeNotesSubscription";
+import Aos from "aos";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect } from "react";
 
 const Hero = () => {
+  useEffect(() => {
+    Aos.init({
+      duration: 1200, // Animation duration in ms
+      once: true, // Only animate once on scroll
+    });
+  }, []);
   return (
-    <div className="max-w-7xl pb-3 pt-10  bg-[#F9F6F3] rounded-bl-lg rounded-br-lg mx-auto">
+    <div className="container pb-3 pt-10  bg-[#F9F6F3] rounded-bl-lg rounded-br-lg mx-auto">
       <div className="relative z-10  md:px-6 lg:py-16">
         <div className="grid lg:grid-cols-2 p-4 gap-8 md:gap-16 items-center lg:mb-16">
           <div data-aos="fade-right" className="relative">
             <div className="relative  w-40 h-40 md:w-60 md:h-60 lg:w-90 lg:h-90 mx-auto">
-              {/* Yellow decorative background */}
-              {/* <div className="absolute animate-pulse inset-0 bg-yellow-300 rounded-full transform rotate-12"></div> */}
-              {/* <div className="absolute animate-pulse inset-4 bg-yellow-200 rounded-full transform -rotate-6"></div> */}
-
               {/* Profile photo */}
               <div className="absolute inset-8 rounded-full overflow-hidden bg-white">
                 <Image

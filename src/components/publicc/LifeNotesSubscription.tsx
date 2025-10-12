@@ -30,13 +30,13 @@ export default function LifeNotesSubscription() {
 
   return (
     <div className="flex items-center justify-center p-4">
-      <div className="bg-white backdrop-blur-sm border border-white/20 shadow-xl rounded-3xl p-4 md:p-12 max-w-7xl w-full">
+      <div className="bg-white backdrop-blur-sm border border-white/20 shadow-xl rounded-3xl p-4 md:p-12 container w-full">
         <div className="flex bg-white flex-col lg:flex-row lg:items-start gap-8 lg:gap-12">
           {/* Left Section */}
           <div className="flex-1 space-y-6">
             <div className="space-y-4">
               <div className="flex items-center gap-3 mb-2">
-                <h1 className="text-3xl lg:text-4xl font-semibold bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent">
+                <h1 className="text-3xl lg:text-4xl font-light bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent">
                   Subscribe to
                 </h1>
                 <div className="p-2 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl shadow-lg">

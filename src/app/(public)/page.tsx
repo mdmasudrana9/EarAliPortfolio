@@ -3,8 +3,8 @@ import Hero from "@/components/publicc/Hero";
 import JournalingSection from "@/components/publicc/JournalingSection";
 import LifeNotesSubscription from "@/components/publicc/LifeNotesSubscription";
 import { PopularResources } from "@/components/publicc/PopularResources";
-import PopularVideos from "@/components/publicc/PopularVideosSection";
 import ProductShowcase from "@/components/publicc/ProductShowcase";
+import { VideoGallery } from "@/components/publicc/VideoGallery";
 
 const page = () => {
   return (
@@ -13,9 +13,10 @@ const page = () => {
       {/* <AnimatedHero /> */}
       <HelpSection />
       <JournalingSection />
-      <PopularVideos />
-      <PopularResources />
-      <ProductShowcase />
+      {/* <PopularVideos /> */}
+      <VideoGallery />
+      {/* <PopularResources /> */}
+      {/* <ProductShowcase /> */}
       <LifeNotesSubscription />
     </div>
   );

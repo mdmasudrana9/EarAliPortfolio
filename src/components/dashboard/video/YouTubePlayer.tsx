@@ -1,9 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { Play } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import { useState } from "react";
 
 interface YouTubePlayerProps {
   videoUrl: string;
@@ -53,14 +51,6 @@ export function YouTubePlayer({
                 alt="Video thumbnail"
                 className="w-full h-full object-cover transition-transform group-hover:scale-105"
               />
-              <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/30 transition-colors">
-                <Button
-                  size="lg"
-                  className="w-20 h-20 rounded-full bg-red-600 hover:bg-red-700 text-white shadow-lg"
-                >
-                  <Play className="w-8 h-8 ml-1" fill="currentColor" />
-                </Button>
-              </div>
             </div>
           </div>
         </div>

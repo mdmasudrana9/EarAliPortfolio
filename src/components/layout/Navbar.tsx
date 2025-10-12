@@ -15,7 +15,7 @@ const Navbar = () => {
   return (
     <nav
       className={clsx(
-        "flex max-w-7xl  rounded-t-lg lg:mt-3 bg-[#F9F6F3] mx-auto items-center justify-between p-6 md:p-8 z-20",
+        "flex container  rounded-t-lg lg:mt-5 bg-[#F9F6F3] mx-auto items-center justify-between p-6 md:p-8 z-20",
         isOpen ? "fixed top-0 left-0 w-full" : "relative"
       )}
     >

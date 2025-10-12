@@ -9,7 +9,7 @@ const videoApi = baseApi.injectEndpoints({
         method: "POST",
         body: data,
       }),
-      invalidatesTags: [TAG_TYPES.Video], // create এর পর cached data refresh করার জন্য
+      invalidatesTags: [TAG_TYPES.Video],
     }),
     getAllVideos: builder.query({
       query: () => "/videos",
@@ -27,6 +27,12 @@ const videoApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [TAG_TYPES.Video],
     }),
+
+    // 🆕 Get Videos By Category
+    getVideosByCategory: builder.query({
+      query: (category: string) => `/videos/category/${category}`,
+      providesTags: [TAG_TYPES.Video],
+    }),
     deleteVideo: builder.mutation({
       query: (id) => ({
         url: `/videos/${id}`,
@@ -43,4 +49,5 @@ export const {
   useGetVideoByIdQuery,
   useUpdateVideoMutation,
   useDeleteVideoMutation,
+  useGetVideosByCategoryQuery,
 } = videoApi;

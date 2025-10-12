@@ -1,11 +1,11 @@
 import AllVideosPage from "@/components/publicc/videos/AllVideosPage";
-import VideoList from "@/components/publicc/videos/VideoList";
+import CategoryWiseVedio from "@/components/publicc/videos/CategoryWiseVedio";
 
 const page = () => {
   return (
     <div className="">
       <AllVideosPage />
-      <VideoList />
+      <CategoryWiseVedio />
     </div>
   );
 };
