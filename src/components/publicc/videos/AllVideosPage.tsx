@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import Link from "next/link";
 
 const Index = () => {
   return (
@@ -40,7 +41,7 @@ const Index = () => {
               </p>
             </div>
 
-            <div className="pt-6">
+            <Link href="https://www.youtube.com/@md.yarali" className="pt-6">
               <Button
                 size="lg"
                 variant="outline"
@@ -55,7 +56,7 @@ const Index = () => {
                 </svg>
                 Subscribe on YouTube
               </Button>
-            </div>
+            </Link>
           </div>
         </div>
       </main>

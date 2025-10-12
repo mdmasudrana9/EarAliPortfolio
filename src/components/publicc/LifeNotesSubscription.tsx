@@ -3,7 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useCreateNewsletterMutation } from "@/redux/features/newsletter/newsletterApi";
-import { Send, SendHorizonal, Star } from "lucide-react";
+import { Send, Star } from "lucide-react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 import { toast } from "sonner";
