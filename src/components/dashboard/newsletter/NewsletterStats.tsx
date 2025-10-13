@@ -54,17 +54,17 @@ export function NewsletterStats({
           style={{ animationDelay: `${index * 100}ms` }}
         >
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-xl font-medium text-muted-foreground">
+            <CardTitle className="text-lg font-medium text-muted-foreground">
               {stat.title}
             </CardTitle>
-            <div className="h-12 w-12 rounded-lg bg-blue-500/10 flex items-center justify-center">
+            <div className="h-10 w-10 rounded-lg bg-blue-500/10 flex items-center justify-center">
               <stat.icon className="h-6 w-6 text-blue-500" />
             </div>
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold">{stat.value}</div>
+            <div className="text-2xl font-bold">{stat.value}</div>
             <p
-              className={`text-md mt-1 ${
+              className={`text-sm mt-1 ${
                 stat.changeType === "positive"
                   ? "text-green-600 dark:text-green-400"
                   : "text-muted-foreground"

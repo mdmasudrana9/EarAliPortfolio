@@ -111,7 +111,7 @@ export function NewsletterTable() {
         <div className="flex flex-col  items-start  gap-3">
           <CardTitle className="flex items-center gap-2 text-3xl font-semibold">
             Newsletter Subscribers
-            <Badge className="text-base" variant="outline">
+            <Badge className="text-sm" variant="outline">
               {subscribers.length} total
             </Badge>
           </CardTitle>
@@ -151,12 +151,12 @@ export function NewsletterTable() {
           <Table className="min-w-[700px]">
             <TableHeader>
               <TableRow>
-                <TableHead className="text-xl font-serif">SL</TableHead>
-                <TableHead className="text-xl font-serif">Email</TableHead>
-                <TableHead className="text-xl font-serif">
+                <TableHead className="text-lg font-serif">SL</TableHead>
+                <TableHead className="text-lg font-serif">Email</TableHead>
+                <TableHead className="text-lg font-serif">
                   Date Subscribed
                 </TableHead>
-                <TableHead className="text-right text-xl font-serif">
+                <TableHead className="text-right text-lg font-serif">
                   Actions
                 </TableHead>
               </TableRow>
@@ -165,13 +165,13 @@ export function NewsletterTable() {
             <TableBody>
               {paginatedSubscribers.map((sub, index) => (
                 <TableRow key={sub._id} className="hover:bg-muted/30">
-                  <TableCell className="font-serif text-lg">
+                  <TableCell className="font-serif text-md">
                     {(currentPage - 1) * itemsPerPage + index + 1}
                   </TableCell>
-                  <TableCell className="font-serif text-lg break-all">
+                  <TableCell className="font-serif text-md break-all">
                     {sub.email}
                   </TableCell>
-                  <TableCell className="text-muted-foreground text-lg">
+                  <TableCell className=" text-md">
                     {new Date(sub.createdAt).toLocaleDateString("en-GB", {
                       day: "2-digit",
                       month: "short",
@@ -185,7 +185,7 @@ export function NewsletterTable() {
                         size="icon"
                         onClick={() => handleSendEmail(sub.email)}
                       >
-                        <Mail className="h-5 w-5" />
+                        <Mail className="h-4 w-4" />
                       </Button>
 
                       <DropdownMenu>

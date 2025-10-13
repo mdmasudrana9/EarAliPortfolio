@@ -20,10 +20,10 @@ const Page = () => {
       <div className="space-y-6">
         {/* Header */}
         <div className="space-y-2">
-          <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-blue-600/60 bg-clip-text text-transparent">
+          <h1 className="md:text-4xl text-3xl font-bold bg-gradient-to-r from-blue-600 to-blue-600/60 bg-clip-text text-transparent">
             Newsletter Dashboard
           </h1>
-          <p className="text-muted-foreground text-xl md:text-2xl">
+          <p className="text-muted-foreground text-lg md:text-xl">
             Manage your subscribers and send beautiful newsletters
           </p>
         </div>
