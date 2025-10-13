@@ -7,26 +7,29 @@ import Link from "next/link";
 import { useState } from "react";
 import { LogIn, Menu, X } from "lucide-react";
 import clsx from "clsx";
+import { useGetAllNewslettersQuery } from "@/redux/features/newsletter/newsletterApi";
 
 const Navbar = () => {
   const { user } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
+  const { data } = useGetAllNewslettersQuery("");
+  const totalSubscribers = data?.data.length || 0;
 
   return (
     <nav
       className={clsx(
-        "flex container  rounded-t-lg lg:mt-5 bg-[#F9F6F3] mx-auto items-center justify-between p-6 md:p-8 z-20",
+        "flex container  rounded-t-lg lg:mt-5 bg-[#F9F6F3] mx-auto items-center justify-between p-6 md:p-10 z-20",
         isOpen ? "fixed top-0 left-0 w-full" : "relative"
       )}
     >
       {/* Logo */}
-      <Link href="/" className="flex items-center space-x-2">
+      <Link href="/" className="flex font-serif items-center space-x-2">
         <div className="text-2xl font-bold text-cyan-500">⚡</div>
         <div className="text-2xl font-bold text-gray-900">Ear Ali</div>
       </Link>
 
       {/* Desktop Menu */}
-      <div className="hidden md:flex items-center space-x-8">
+      <div className="hidden md:text-xl font-serif md:flex items-center space-x-8">
         <Link href="#book" className="transition-colors font-medium">
           About
         </Link>
@@ -46,11 +49,15 @@ const Navbar = () => {
 
       {/* CTA Button (Desktop only) */}
       <div className="hidden md:block">
-        <Button className="bg-orange-400 hover:bg-orange-500 text-white font-semibold px-6 py-2 rounded-full">
+        <div className="flex items-center space-x-4">
+          {" "}
+          <Button className="bg-[#FD976D] hover:bg-orange-500 text-white font-semibold px-8 py-3 rounded-full">
+            Join {totalSubscribers}k+ Subscribers
+          </Button>
           <Link href="/login" className="hidden md:block">
-            <LogIn />
+            <LogIn className="text-gray-500 w-5 h-5" />
           </Link>
-        </Button>
+        </div>
       </div>
 
       {/* Mobile Menu Toggle */}
@@ -100,9 +107,15 @@ const Navbar = () => {
             Dashboard
           </Link>
         )}
-        <Button className="bg-orange-400 hover:bg-orange-500 text-white font-semibold px-6 py-2 rounded-full">
-          Join 510K+ Subscribers
-        </Button>
+        <div className="flex items-center space-x-4">
+          {" "}
+          <Button className="bg-[#FD976D] hover:bg-orange-500 text-white font-semibold px-8 py-3 rounded-full">
+            Join {totalSubscribers}k+ Subscribers
+          </Button>
+          <Link href="/login" className="hidden md:block">
+            <LogIn className="text-gray-500 w-5 h-5 bg-black " />
+          </Link>
+        </div>
       </div>
     </nav>
   );

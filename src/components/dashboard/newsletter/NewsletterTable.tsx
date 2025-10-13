@@ -1,6 +1,17 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
-import { useState } from "react";
+import { Mail, MoreHorizontal, Trash2, Users } from "lucide-react";
+import { Fragment, useMemo, useState } from "react";
+import { toast } from "sonner";
+
+import {
+  useDeleteNewsletterMutation,
+  useGetAllNewslettersQuery,
+} from "@/redux/features/newsletter/newsletterApi";
+import { INewsletter } from "@/redux/features/newsletter/types";
+
+import { SendNewsletterModal } from "@/components/dashboard/newsletter/SendNewsletterModal";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -10,6 +21,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input"; // Assuming you have a reusable Input component
 import {
   Table,
   TableBody,
@@ -18,146 +30,181 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  useDeleteNewsletterMutation,
-  useGetAllNewslettersQuery,
-  useSendNewsletterToAllMutation,
-} from "@/redux/features/newsletter/newsletterApi";
-import { INewsletter } from "@/redux/features/newsletter/types";
-import { Mail, MoreHorizontal, Trash2 } from "lucide-react";
-import { toast } from "sonner";
 
 export function NewsletterTable() {
-  const { data } = useGetAllNewslettersQuery("");
-  const [sendNewsletterToAll] = useSendNewsletterToAllMutation();
-  const initialSubscribers: INewsletter[] = data?.data ?? [];
-  const [deleteNewsletter] = useDeleteNewsletterMutation();
-
-  // Pagination state
+  const { data, isLoading, isError } = useGetAllNewslettersQuery("");
+  const [deleteNewsletter, { isLoading: isDeleting }] =
+    useDeleteNewsletterMutation();
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10;
+  const [searchTerm, setSearchTerm] = useState("");
 
-  const totalPages = Math.ceil(initialSubscribers.length / itemsPerPage);
-  const paginatedSubscribers = initialSubscribers.slice(
+  const subscribers: INewsletter[] = data?.data ?? [];
+
+  // --------------------------
+  // Filtered Subscribers (Search)
+  // --------------------------
+  const filteredSubscribers = useMemo(() => {
+    if (!searchTerm) return subscribers;
+    return subscribers.filter((sub) =>
+      sub.email.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }, [subscribers, searchTerm]);
+
+  const itemsPerPage = 10;
+  const totalPages = Math.ceil(filteredSubscribers.length / itemsPerPage);
+  const paginatedSubscribers = filteredSubscribers.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
 
+  // --------------------------
+  // Handlers
+  // --------------------------
   const handleDelete = async (id: string) => {
     try {
       await deleteNewsletter(id).unwrap();
-      toast.success("Newsletter deleted successfully!");
+      toast.success("Subscriber removed successfully!");
     } catch (error) {
-      console.error("Failed to delete newsletter:", error);
-      toast.error("Failed to delete newsletter!");
+      console.error(error);
+      toast.error("Failed to delete subscriber.");
     }
   };
 
   const handleSendEmail = (email: string) => {
-    alert(`Sending email to ${email}`);
+    toast.message(`Sending newsletter to: ${email}`);
   };
 
-  // ✅ Send email to all subscribers
-  const handleSendAll = async () => {
-    try {
-      if (!data?.data?.length) {
-        toast.error("No subscribers found!");
-        return;
-      }
+  // --------------------------
+  // Conditional Rendering
+  // --------------------------
+  if (isLoading)
+    return (
+      <Card className="p-6 text-center">
+        <p className="text-sm text-muted-foreground">Loading subscribers...</p>
+      </Card>
+    );
 
-      await sendNewsletterToAll({
-        subject: "📢 Our Latest Newsletter",
-        html: `
-    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; background-color: #f9f9f9; border-radius: 10px; border: 1px solid #e0e0e0;">
-      <h1 style="color: #333; text-align: center;">Hello Subscriber!</h1>
-      <p style="font-size: 16px; color: #555; line-height: 1.6;">
-        We hope you're doing great! Here's our latest update 🚀
-      </p>
-      <p style="text-align: center; margin-top: 30px;">
-        <a href="https://yourwebsite.com" style="display: inline-block; padding: 12px 25px; background-color: #4CAF50; color: #fff; text-decoration: none; border-radius: 5px;">
-          Check it out
-        </a>
-      </p>
-    </div>
-  `,
-      }).unwrap();
+  if (isError)
+    return (
+      <Card className="p-6 text-center">
+        <p className="text-sm text-destructive">Failed to load data.</p>
+      </Card>
+    );
 
-      toast.success(`Emails sent to ${data.data.length} subscribers!`);
-    } catch (error) {
-      toast.error("Failed to send emails!");
-      console.error(error);
-    }
-  };
+  if (subscribers.length === 0)
+    return (
+      <Card className="p-10 text-center">
+        <Users className="w-10 h-10 mx-auto text-muted-foreground mb-3" />
+        <p className="text-sm text-muted-foreground">
+          No subscribers found yet.
+        </p>
+      </Card>
+    );
 
+  // --------------------------
+  // Main Render
+  // --------------------------
   return (
-    <Card className="overflow-hidden">
-      <CardHeader className="flex items-center justify-between">
-        <CardTitle className="flex items-center gap-2 flex-wrap">
-          <span className="text-lg font-semibold">Newsletter Subscribers</span>
-          <Badge variant="outline">{initialSubscribers.length} total</Badge>
-        </CardTitle>
+    <Card className="overflow-hidden ">
+      {/* Header */}
+      <CardHeader className="flex flex-col md:flex-row items-start md:items-center justify-between flex-wrap gap-3 border-b pb-3">
+        <div className="flex flex-col  items-start  gap-3">
+          <CardTitle className="flex items-center gap-2 text-3xl font-semibold">
+            Newsletter Subscribers
+            <Badge className="text-base" variant="outline">
+              {subscribers.length} total
+            </Badge>
+          </CardTitle>
 
-        {/* ✅ Send Email to All Button */}
-        <Button
-          variant="outline"
-          size="sm"
-          className="flex items-center gap-2"
-          onClick={handleSendAll}
-        >
-          <Mail className="h-4 w-4" />
-          Send to All
-        </Button>
+          {/* Search Input + Reset */}
+          <div className="flex w-full items-center gap-2">
+            <Input
+              placeholder="Search by email..."
+              value={searchTerm}
+              onChange={(e) => {
+                setSearchTerm(e.target.value);
+                setCurrentPage(1); // Reset page when searching
+              }}
+              className="max-w-xs"
+            />
+            {searchTerm && (
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setSearchTerm("");
+                  setCurrentPage(1);
+                }}
+              >
+                Reset
+              </Button>
+            )}
+          </div>
+        </div>
+
+        <SendNewsletterModal />
       </CardHeader>
 
+      {/* Content */}
       <CardContent>
-        {/* Table (Desktop) */}
-        <div className="hidden md:block w-full overflow-x-auto">
-          <Table className="min-w-[600px] border rounded-lg">
+        {/* Desktop Table */}
+        <div className="hidden md:block overflow-x-auto">
+          <Table className="min-w-[700px]">
             <TableHeader>
               <TableRow>
-                <TableHead className="w-16">S.No</TableHead>
-                <TableHead>Email</TableHead>
-                <TableHead>Subscription Date</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
+                <TableHead className="text-xl font-serif">SL</TableHead>
+                <TableHead className="text-xl font-serif">Email</TableHead>
+                <TableHead className="text-xl font-serif">
+                  Date Subscribed
+                </TableHead>
+                <TableHead className="text-right text-xl font-serif">
+                  Actions
+                </TableHead>
               </TableRow>
             </TableHeader>
+
             <TableBody>
-              {paginatedSubscribers.map((subscriber, index) => (
-                <TableRow key={subscriber._id}>
-                  <TableCell className="font-medium">
+              {paginatedSubscribers.map((sub, index) => (
+                <TableRow key={sub._id} className="hover:bg-muted/30">
+                  <TableCell className="font-serif text-lg">
                     {(currentPage - 1) * itemsPerPage + index + 1}
                   </TableCell>
-                  <TableCell className="font-mono text-sm break-all">
-                    {subscriber.email}
+                  <TableCell className="font-serif text-lg break-all">
+                    {sub.email}
                   </TableCell>
-                  <TableCell className="text-muted-foreground whitespace-nowrap">
-                    {new Date(subscriber.createdAt).toLocaleDateString()}
+                  <TableCell className="text-muted-foreground text-lg">
+                    {new Date(sub.createdAt).toLocaleDateString("en-GB", {
+                      day: "2-digit",
+                      month: "short",
+                      year: "numeric",
+                    })}
                   </TableCell>
                   <TableCell className="text-right">
-                    <div className="flex items-center justify-end gap-2">
+                    <div className="flex items-center text-lg justify-end gap-2">
                       <Button
                         variant="outline"
-                        size="sm"
-                        onClick={() => handleSendEmail(subscriber.email)}
+                        size="icon"
+                        onClick={() => handleSendEmail(sub.email)}
                       >
-                        <Mail className="h-4 w-4" />
+                        <Mail className="h-5 w-5" />
                       </Button>
+
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" size="sm">
+                          <Button variant="ghost" size="icon">
                             <MoreHorizontal className="h-4 w-4" />
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                           <DropdownMenuItem
-                            onClick={() => handleSendEmail(subscriber.email)}
+                            onClick={() => handleSendEmail(sub.email)}
                           >
                             <Mail className="h-4 w-4 mr-2" />
                             Send Email
                           </DropdownMenuItem>
                           <DropdownMenuItem
-                            onClick={() => handleDelete(subscriber._id)}
+                            onClick={() => handleDelete(sub._id)}
                             className="text-destructive"
+                            disabled={isDeleting}
                           >
                             <Trash2 className="h-4 w-4 mr-2" />
                             Delete
@@ -174,51 +221,54 @@ export function NewsletterTable() {
 
         {/* Mobile Cards */}
         <div className="md:hidden space-y-4">
-          {paginatedSubscribers.map((subscriber, index) => (
-            <div
-              key={subscriber._id}
-              className="border rounded-lg p-4 shadow-sm bg-card"
-            >
-              <div className="flex justify-between items-center">
-                <span className="text-sm text-muted-foreground">
-                  #{(currentPage - 1) * itemsPerPage + index + 1}
-                </span>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="sm">
-                      <MoreHorizontal className="h-4 w-4" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuItem
-                      onClick={() => handleSendEmail(subscriber.email)}
-                    >
-                      <Mail className="h-4 w-4 mr-2" />
-                      Send Email
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                      onClick={() => handleDelete(subscriber._id)}
-                      className="text-destructive"
-                    >
-                      <Trash2 className="h-4 w-4 mr-2" />
-                      Delete
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+          {paginatedSubscribers.map((sub, index) => (
+            <Fragment key={sub._id}>
+              <div className="border rounded-xl p-4 shadow-sm bg-card transition hover:shadow-md">
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-xs text-muted-foreground">
+                    #{(currentPage - 1) * itemsPerPage + index + 1}
+                  </span>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="ghost" size="icon">
+                        <MoreHorizontal className="h-4 w-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuItem
+                        onClick={() => handleSendEmail(sub.email)}
+                      >
+                        <Mail className="h-4 w-4 mr-2" />
+                        Send Email
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => handleDelete(sub._id)}
+                        className="text-destructive"
+                        disabled={isDeleting}
+                      >
+                        <Trash2 className="h-4 w-4 mr-2" />
+                        Delete
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </div>
+
+                <p className="font-mono text-sm break-all">{sub.email}</p>
+                <p className="text-xs text-muted-foreground mt-1">
+                  {new Date(sub.createdAt).toLocaleDateString("en-GB", {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric",
+                  })}
+                </p>
               </div>
-              <p className="font-mono text-sm break-all mt-2">
-                {subscriber.email}
-              </p>
-              <p className="text-xs text-muted-foreground mt-1">
-                {new Date(subscriber.createdAt).toLocaleDateString()}
-              </p>
-            </div>
+            </Fragment>
           ))}
         </div>
 
-        {/* Pagination Controls */}
+        {/* Pagination */}
         {totalPages > 1 && (
-          <div className="flex items-center justify-between mt-4">
+          <div className="flex items-center justify-between mt-6">
             <Button
               variant="outline"
               size="sm"
@@ -227,9 +277,11 @@ export function NewsletterTable() {
             >
               Previous
             </Button>
-            <span className="text-sm">
+
+            <span className="text-sm text-muted-foreground">
               Page {currentPage} of {totalPages}
             </span>
+
             <Button
               variant="outline"
               size="sm"
