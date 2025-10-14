@@ -34,7 +34,7 @@ export const VideoGallery = () => {
               <div className="absolute -bottom-2 left-0 right-8 h-3 bg-accent/40 rounded-full" />
             </div>
           </div>
-          <div className="hidden md:flex gap-2">
+          {/* <div className="hidden md:flex gap-2">
             <Button
               size="icon"
               variant="outline"
@@ -49,7 +49,7 @@ export const VideoGallery = () => {
             >
               <ChevronRight className="w-5 h-5" />
             </Button>
-          </div>
+          </div> */}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  gap-6 mb-12">
