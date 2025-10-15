@@ -1,52 +1,57 @@
 // components/article/editor/TiptapEditor.tsx
 "use client";
 
-import { useEffect, useState } from "react";
-import { useEditor, EditorContent } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
-import Link from "@tiptap/extension-link";
-import Placeholder from "@tiptap/extension-placeholder";
-import ListItem from "@tiptap/extension-list-item";
-import BulletList from "@tiptap/extension-bullet-list";
-import OrderedList from "@tiptap/extension-ordered-list";
 import Blockquote from "@tiptap/extension-blockquote";
+import BulletList from "@tiptap/extension-bullet-list";
 import Heading from "@tiptap/extension-heading";
+import Highlight from "@tiptap/extension-highlight"; // ✅ highlight extension added
 import Image from "@tiptap/extension-image";
+import Link from "@tiptap/extension-link";
+import ListItem from "@tiptap/extension-list-item";
+import OrderedList from "@tiptap/extension-ordered-list";
+import Placeholder from "@tiptap/extension-placeholder";
+import { EditorContent, useEditor } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
+import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import {
   Bold,
-  Italic,
-  List,
-  ListOrdered,
-  Quote,
+  CheckCircle,
+  Circle,
   Code,
-  Link as LinkIcon,
+  FileText,
   Heading1,
   Heading2,
   Heading3,
-  Undo,
+  Italic,
+  Link as LinkIcon,
+  List,
+  ListOrdered,
+  Quote,
   Redo,
   Save,
   Send,
-  CheckCircle,
-  Circle,
-  FileText,
+  Undo,
 } from "lucide-react";
 
-import { useDispatch, useSelector } from "react-redux";
-import { RootState, AppDispatch } from "@/redux/store";
 import {
-  setTitle,
-  setContent as setContentAction,
-  resetArticle,
-} from "@/redux/features/articles/articleSlice";
-import {
-  useSaveDraftMutation,
   usePublishArticleMutation,
+  useSaveDraftMutation,
 } from "@/redux/features/articles/articleApi";
+import {
+  resetArticle,
+  setContent as setContentAction,
+  setTitle,
+} from "@/redux/features/articles/articleSlice";
+import { AppDispatch, RootState } from "@/redux/store";
+import { useDispatch, useSelector } from "react-redux";
+
+// 🟡 highlight UI imports
+import { ButtonGroup } from "@/components/tiptap-ui-primitive/button";
+import { ColorHighlightButton } from "@/components/tiptap-ui/color-highlight-button";
 
 interface TiptapEditorProps {
   placeholder?: string;
@@ -55,23 +60,18 @@ interface TiptapEditorProps {
 export function TiptapEditor({
   placeholder = "Start writing your article...",
 }: TiptapEditorProps) {
-  // Redux hooks
   const dispatch = useDispatch<AppDispatch>();
   const { title, content } = useSelector((s: RootState) => s.article);
 
-  // RTK Query mutations
   const [saveDraft, { isLoading: isSavingDraft }] = useSaveDraftMutation();
   const [publishArticle, { isLoading: isPublishing }] =
     usePublishArticleMutation();
 
-  // Local UI state for status messages
   const [saveStatus, setSaveStatus] = useState<string>("");
 
-  // Tiptap editor initialization
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
-        // we disable lists/blockquote/heading in starter kit because we add custom ones below
         bulletList: false,
         orderedList: false,
         listItem: false,
@@ -96,10 +96,10 @@ export function TiptapEditor({
           class: "rounded-md max-w-full h-auto mx-auto",
         },
       }),
+      Highlight.configure({ multicolor: true }), // ✅ highlight extension configured
     ],
-    content: content || "<p></p>", // initial content from Redux (may be empty)
+    content: content || "<p></p>",
     onUpdate: ({ editor }) => {
-      // Editor update => Redux state update
       const html = editor.getHTML();
       dispatch(setContentAction(html));
     },
@@ -112,7 +112,6 @@ export function TiptapEditor({
     immediatelyRender: false,
   });
 
-  // When editor first mounts, ensure editor content stays in sync with Redux content
   useEffect(() => {
     if (!editor) return;
     if (content && content !== editor.getHTML()) {
@@ -121,7 +120,6 @@ export function TiptapEditor({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editor]);
 
-  // Helper: add link
   const addLink = () => {
     const url = window.prompt("Enter URL:");
     if (url && editor) {
@@ -129,7 +127,6 @@ export function TiptapEditor({
     }
   };
 
-  // Quick insert helpers (Introduction, Conclusion, CTA)
   const insertIntroduction = () => {
     editor
       ?.chain()
@@ -151,12 +148,11 @@ export function TiptapEditor({
       ?.chain()
       .focus()
       .insertContent(
-        "<h2>Call to Action</h2><p>What do you want readers to do next? Subscribe, contact, or learn more...</p>"
+        "<h2>Call to Action</h2><p>What do you want readers to do next?</p>"
       )
       .run();
   };
 
-  // Save draft using RTK Query mutation
   const handleSaveDraft = async () => {
     if (!title.trim() || !editor) {
       setSaveStatus("Please add a title and some content before saving.");
@@ -170,6 +166,7 @@ export function TiptapEditor({
         content: editor.getHTML(),
       }).unwrap();
       setSaveStatus(res?.message || "Draft saved successfully!");
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       setSaveStatus("Failed to save draft.");
     } finally {
@@ -177,7 +174,6 @@ export function TiptapEditor({
     }
   };
 
-  // Publish article using RTK Query mutation
   const handlePublish = async () => {
     if (!title.trim() || !editor) {
       setSaveStatus("Please add a title and some content before publishing.");
@@ -191,9 +187,9 @@ export function TiptapEditor({
         content: editor.getHTML(),
       }).unwrap();
       setSaveStatus(res?.message || "Article published successfully!");
-      // optionally reset after publish
       dispatch(resetArticle());
       editor.commands.setContent("<p></p>");
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       setSaveStatus("Failed to publish article.");
     } finally {
@@ -201,11 +197,11 @@ export function TiptapEditor({
     }
   };
 
-  // If editor not ready, don't render UI (prevents SSR hydration issues)
   if (!editor) return null;
 
   return (
     <div className="Container mx-auto flex gap-6">
+      {/* Sidebar */}
       <div className="w-64 hidden lg:block flex-shrink-0">
         <Card className="p-4 sticky top-4">
           <div className="flex items-center gap-2 mb-4">
@@ -214,7 +210,6 @@ export function TiptapEditor({
           </div>
 
           <div className="space-y-3">
-            {/* We keep a simple checklist by reading Redux content */}
             {[
               {
                 id: "introduction",
@@ -272,30 +267,29 @@ export function TiptapEditor({
           </div>
 
           <Separator className="my-4" />
-
           <div className="space-y-2">
             <h4 className="text-sm font-medium">Quick Insert</h4>
             <Button
               variant="outline"
               size="sm"
-              className="w-full justify-start bg-transparent"
               onClick={insertIntroduction}
+              className="w-full justify-start bg-transparent"
             >
               Add Introduction
             </Button>
             <Button
               variant="outline"
               size="sm"
-              className="w-full justify-start bg-transparent"
               onClick={insertConclusion}
+              className="w-full justify-start bg-transparent"
             >
               Add Conclusion
             </Button>
             <Button
               variant="outline"
               size="sm"
-              className="w-full justify-start bg-transparent"
               onClick={insertCallToAction}
+              className="w-full justify-start bg-transparent"
             >
               Add Call to Action
             </Button>
@@ -303,8 +297,8 @@ export function TiptapEditor({
         </Card>
       </div>
 
+      {/* Main Editor */}
       <div className="flex-1">
-        {/* Title Input connected to Redux */}
         <div className="mb-3">
           <input
             type="text"
@@ -318,6 +312,7 @@ export function TiptapEditor({
         {/* Toolbar */}
         <Card className="mb-4 p-2">
           <div className="flex flex-wrap items-center gap-1">
+            {/* Bold / Italic */}
             <Button
               variant={editor.isActive("bold") ? "default" : "ghost"}
               size="sm"
@@ -332,19 +327,64 @@ export function TiptapEditor({
             >
               <Italic className="h-4 w-4" />
             </Button>
+
+            {/* Highlight Buttons Group 🟨 */}
+            <ButtonGroup orientation="horizontal">
+              <ColorHighlightButton
+                editor={editor}
+                tooltip="Yellow"
+                highlightColor="oklch(90.1% 0.076 70.697)"
+              />
+              <ColorHighlightButton
+                editor={editor}
+                tooltip="Green"
+                highlightColor="oklch(88.5% 0.062 140.334)"
+              />
+              <ColorHighlightButton
+                editor={editor}
+                tooltip="Pink"
+                highlightColor="oklch(80.5% 0.1 350.334)"
+              />
+              <ColorHighlightButton
+                editor={editor}
+                tooltip="Blue"
+                highlightColor="oklch(85% 0.12 250)"
+              />
+              <ColorHighlightButton
+                editor={editor}
+                tooltip="Orange"
+                highlightColor="oklch(90% 0.1 50)"
+              />
+              <ColorHighlightButton
+                editor={editor}
+                tooltip="Purple"
+                highlightColor="oklch(82% 0.1 300)"
+              />
+              <ColorHighlightButton
+                editor={editor}
+                tooltip="Gray"
+                highlightColor="oklch(85% 0.02 250)"
+              />
+              <ColorHighlightButton
+                editor={editor}
+                tooltip="Red"
+                highlightColor="oklch(75% 0.15 30)"
+              />
+            </ButtonGroup>
+
+            <Separator orientation="vertical" className="h-6 mx-1" />
+
+            {/* Image / Code */}
             <Button
               variant="ghost"
               size="sm"
               onClick={() => {
                 const url = window.prompt("Enter image URL");
-                if (url) {
-                  editor.chain().focus().setImage({ src: url }).run();
-                }
+                if (url) editor.chain().focus().setImage({ src: url }).run();
               }}
             >
               🖼️
             </Button>
-
             <Button
               variant={editor.isActive("code") ? "default" : "ghost"}
               size="sm"
@@ -355,6 +395,7 @@ export function TiptapEditor({
 
             <Separator orientation="vertical" className="h-6 mx-1" />
 
+            {/* Headings */}
             <Button
               variant={
                 editor.isActive("heading", { level: 1 }) ? "default" : "ghost"
@@ -391,6 +432,7 @@ export function TiptapEditor({
 
             <Separator orientation="vertical" className="h-6 mx-1" />
 
+            {/* Lists */}
             <Button
               variant={editor.isActive("bulletList") ? "default" : "ghost"}
               size="sm"
@@ -408,6 +450,7 @@ export function TiptapEditor({
 
             <Separator orientation="vertical" className="h-6 mx-1" />
 
+            {/* Quote, Link */}
             <Button
               variant={editor.isActive("blockquote") ? "default" : "ghost"}
               size="sm"
@@ -421,6 +464,7 @@ export function TiptapEditor({
 
             <Separator orientation="vertical" className="h-6 mx-1" />
 
+            {/* Undo / Redo */}
             <Button
               variant="ghost"
               size="sm"
@@ -446,9 +490,7 @@ export function TiptapEditor({
         </Card>
 
         <div className="mt-4 flex items-center justify-between">
-          <div className="text-sm text-muted-foreground">
-            {/* simple char/word counting can be added later */}
-          </div>
+          <div className="text-sm text-muted-foreground"></div>
 
           <div className="flex items-center gap-3">
             {saveStatus && (

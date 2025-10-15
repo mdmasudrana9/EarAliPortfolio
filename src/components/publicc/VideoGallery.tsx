@@ -1,11 +1,11 @@
 "use client";
-import { ChevronLeft, ChevronRight, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 
-import { Button } from "@/components/ui/button";
 import { VideoCard } from "@/components/publicc/VideoCard";
-import Link from "next/link";
-import { useGetAllVideosQuery } from "@/redux/features/videos/videoApi";
 import { Video } from "@/components/publicc/videos/CategoryWiseVedio";
+import { Button } from "@/components/ui/button";
+import { useGetAllVideosQuery } from "@/redux/features/videos/videoApi";
+import Link from "next/link";
 
 export const VideoGallery = () => {
   const { data, isLoading } = useGetAllVideosQuery("");
