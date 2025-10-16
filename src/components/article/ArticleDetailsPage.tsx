@@ -6,8 +6,6 @@ import { Calendar, Clock, Heart, Share2, User2 } from "lucide-react";
 import Image from "next/image";
 
 // TipTap renderer
-import { generateHTML } from "@tiptap/core";
-import StarterKit from "@tiptap/starter-kit";
 
 const ArticleDetailsPage = ({ article }: { article: IArticle }) => {
   // Extract first image from content (for cover image)
@@ -24,35 +22,35 @@ const ArticleDetailsPage = ({ article }: { article: IArticle }) => {
       : null;
 
   // 🔥 Handle JSON or HTML string
-  const getContentHtml = () => {
-    if (!article.content) return "";
+  // const getContentHtml = () => {
+  //   if (!article.content) return "";
 
-    if (typeof article.content === "string") {
-      return article.content; // already HTML
-    }
+  //   if (typeof article.content === "string") {
+  //     return article.content; // already HTML
+  //   }
 
-    try {
-      // assume it's JSON
-      return generateHTML(article.content, [StarterKit]);
-    } catch (error) {
-      console.error("Error generating HTML from JSON:", error);
-      return "";
-    }
-  };
+  //   try {
+  //     // assume it's JSON
+  //     return generateHTML(article.content, [StarterKit]);
+  //   } catch (error) {
+  //     console.error("Error generating HTML from JSON:", error);
+  //     return "";
+  //   }
+  // };
 
-  const contentHtml = getContentHtml();
+  // const contentHtml = getContentHtml();
 
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <div className="relative overflow-hidden bg-[#EEEBFF] border-b border-border/50">
+      <div className="relative container mx-auto overflow-hidden rounded-b-2xl bg-[#F9F6F3] border-b border-border/50">
         <div className="absolute inset-0 bg-grid-white/[0.02] bg-[size:60px_60px]" />
 
         <div className="relative max-w-4xl mx-auto px-6 py-16 space-y-8">
           {/* Meta Information */}
           <div className="flex items-center gap-4 text-sm">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 text-primary border border-primary/20 font-medium">
-              <span className="w-2 h-2 bg-primary rounded-full"></span>
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-200/10 text-primary border border-primary/20 font-medium">
+              <span className="w-2 h-2 bg-green-300 rounded-full"></span>
               {article.status}
             </div>
             <div className="flex items-center gap-2 text-muted-foreground">
@@ -68,7 +66,7 @@ const ArticleDetailsPage = ({ article }: { article: IArticle }) => {
           </div>
 
           {/* Title */}
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+          <h1 className="text-4xl md:text-5xl font-serif font-bold leading-tight">
             {article.title}
           </h1>
 
@@ -100,7 +98,7 @@ const ArticleDetailsPage = ({ article }: { article: IArticle }) => {
         </div>
 
         {/* Cover Image */}
-        <div className="relative p-4 w-full h-[400px] mt-8 max-w-4xl mx-auto">
+        <div className="relative mb-5 p-4 w-full h-[400px] max-w-4xl mx-auto">
           <Image
             height={400}
             width={800}
@@ -116,7 +114,7 @@ const ArticleDetailsPage = ({ article }: { article: IArticle }) => {
       </div>
 
       {/* Content Section */}
-      <div className="max-w-3xl mx-auto px-6 py-16">
+      <div className="max-w-5xl mx-auto px-6 py-16">
         <article className="relative">
           <div
             className="prose prose-lg max-w-none"

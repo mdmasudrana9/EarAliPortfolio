@@ -1,6 +1,6 @@
 "use client";
 
-import { TiptapEditor } from "@/components/article/editor/TiptapEditor";
+import TiptapEditor from "@/components/article/editor/TiptapEditor";
 
 export default function Home() {
   return (

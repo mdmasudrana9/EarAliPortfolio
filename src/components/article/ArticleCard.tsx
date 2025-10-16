@@ -1,30 +1,28 @@
 "use client";
 
-import { Card } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Calendar, Clock } from "lucide-react";
+import type { IArticle } from "@/redux/features/articles/types";
+import { ArrowUpRight, Calendar, Clock } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { IArticle } from "@/redux/features/articles/types";
 
 interface ArticlesCardProps {
   article: IArticle;
 }
 
-// প্রথম image বের করার helper
+// Extract first image helper
 const extractFirstImage = (html: string): string | null => {
   if (!html) return null;
   const match = html.match(/<img[^>]+src="([^">]+)"/);
   return match ? match[1] : null;
 };
 
-// text excerpt বের করার helper
+// Strip HTML helper
 const stripHtml = (html: string) => {
   if (!html) return "";
   return html.replace(/<[^>]+>/g, "");
 };
 
-// পড়তে সময় কত লাগবে (word count দিয়ে approx calculation)
+// Calculate read time
 const calculateReadTime = (html: string): number => {
   const text = stripHtml(html);
   const words = text.trim().split(/\s+/).length;
@@ -33,60 +31,78 @@ const calculateReadTime = (html: string): number => {
 
 export function ArticlesCard({ article }: ArticlesCardProps) {
   const firstImage = extractFirstImage(article.content);
-  const excerpt = stripHtml(article.content).slice(0, 120) + "...";
+  const excerpt = stripHtml(article.content).slice(0, 150) + "...";
   const readTime = calculateReadTime(article.content);
 
   return (
-    <Card className="group overflow-hidden border-0 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-card">
-      <Link href={`/articles/${article._id}`}>
-        {/* Image */}
-        <div className="relative h-48 overflow-hidden">
+    <Link href={`/articles/${article._id}`} className="group block">
+      <div className="relative overflow-hidden bg-[#F9F6F3] rounded-lg border font-serif border-border/50 hover:bg-amber-100/30  hover:border-gray-300 transition-all duration-500 h-full flex flex-col">
+        {/* Image Container with Overlay */}
+        <div className="relative h-56 overflow-hidden bg-muted">
           <Image
-            width={400}
-            height={200}
+            width={600}
+            height={400}
             src={
               firstImage ||
-              "https://via.placeholder.com/400x200.png?text=No+Image"
+              "https://via.placeholder.com/600x400.png?text=No+Image" ||
+              "/placeholder.svg"
             }
             alt={article.title}
-            className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
+            className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
           />
+
+          {/* Gradient Overlay */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+          {/* Status Badge - Positioned on Image */}
+
+          {/* Arrow Icon - Appears on Hover */}
+          <div className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-2 group-hover:translate-y-0">
+            <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center shadow-lg">
+              <ArrowUpRight className="h-5 w-5 text-primary-foreground" />
+            </div>
+          </div>
         </div>
 
-        {/* Content */}
-        <div className="p-4 space-y-3">
+        {/* Content Section */}
+        <div className="p-6 flex-1 flex flex-col space-y-4">
+          {/* Meta Info - Top */}
+          <div className="flex items-center gap-4 text-xs text-muted-foreground">
+            <div className="flex items-center gap-1.5">
+              <Calendar className="h-3.5 w-3.5" />
+              <span>
+                {new Date(article.createdAt).toLocaleDateString("en-US", {
+                  month: "short",
+                  day: "numeric",
+                  year: "numeric",
+                })}
+              </span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <Clock className="h-3.5 w-3.5" />
+              <span>{readTime} min read</span>
+            </div>
+          </div>
+
           {/* Title */}
-          <h3 className="text-lg font-semibold line-clamp-2 group-hover:text-primary transition-colors">
+          <h3 className="text-xl hover:text-gray-500 font-semibold line-clamp-2 text-balance group-hover:text-primary transition-colors duration-300 leading-tight">
             {article.title}
           </h3>
 
           {/* Excerpt */}
-          <p className="text-sm text-muted-foreground line-clamp-3">
+          <p className="text-sm text-muted-foreground line-clamp-3 leading-relaxed flex-1">
             {excerpt}
           </p>
 
-          {/* Meta Info */}
-          <div className="flex items-center gap-4 text-xs text-muted-foreground mt-2">
-            <div className="flex items-center gap-1">
-              <Calendar className="h-4 w-4" />
-              {new Date(article.createdAt).toLocaleDateString()}
-            </div>
-            <div className="flex items-center gap-1">
-              <Clock className="h-4 w-4" />
-              {readTime} min read
-            </div>
-          </div>
-
-          {/* Status badge */}
-          <div className="mt-2">
-            <Badge
-              variant={article.status === "published" ? "default" : "secondary"}
-            >
-              {article.status}
-            </Badge>
+          {/* Read More Link */}
+          <div className="pt-2">
+            <span className="text-sm font-medium text-primary inline-flex items-center gap-1 group-hover:gap-2 transition-all duration-300">
+              Read article
+              <ArrowUpRight className="h-4 w-4" />
+            </span>
           </div>
         </div>
-      </Link>
-    </Card>
+      </div>
+    </Link>
   );
 }

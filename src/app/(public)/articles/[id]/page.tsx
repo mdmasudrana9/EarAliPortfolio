@@ -1,7 +1,6 @@
 "use client";
 
 import ArticleDetailsPage from "@/components/article/ArticleDetailsPage";
-import Hero from "@/components/publicc/Hero";
 import { useGetArticleByIdQuery } from "@/redux/features/articles/articleApi";
 import { Article } from "@/redux/features/articles/types";
 import { useParams } from "next/navigation";
@@ -31,7 +30,7 @@ const Page = () => {
 
   return (
     <>
-      <Hero />
+      {/* <Hero /> */}
       <ArticleDetailsPage article={article} />
     </>
   );
