@@ -11,6 +11,7 @@ import {
   Mail,
   Menu,
   Settings,
+  Upload,
   Users,
   Video,
   X,
@@ -65,6 +66,12 @@ const navItems: NavItems[] = [
     href: "/dashboard/settings",
     icon: Settings,
     roles: ["admin", "user"],
+  },
+  {
+    title: "Image Gallery",
+    href: "/dashboard/image-upload",
+    icon: Upload,
+    roles: ["admin"],
   },
 ];
 

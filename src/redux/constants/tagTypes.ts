@@ -5,4 +5,5 @@ export const TAG_TYPES = {
   Comment: "Comment",
   Article: "Article",
   Newsletter: "Newsletter",
+  ImageGallery: "ImageGallery",
 } as const;

@@ -451,22 +451,7 @@ function TiptapEditor({
             >
               <ImageIcon className="h-4 w-4" />
             </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              asChild
-              title="Upload image from device"
-            >
-              <label className="cursor-pointer">
-                <Upload className="h-4 w-4" />
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageUpload}
-                  className="hidden"
-                />
-              </label>
-            </Button>
+
             <Button
               variant={editor.isActive("code") ? "default" : "ghost"}
               size="sm"

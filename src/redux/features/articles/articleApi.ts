@@ -4,6 +4,29 @@ import { Article } from "@/redux/features/articles/types";
 
 export const articleApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
+    uploadImage: build.mutation({
+      query: (data) => ({
+        url: "/upload",
+        method: "POST",
+        body: data,
+      }),
+    }),
+    SaveDataBaseImage: build.mutation({
+      query: (data) => ({
+        url: "/image-gallery",
+        method: "POST",
+        body: data,
+      }),
+      invalidatesTags: ["ImageGallery"],
+    }),
+    getAllImageFormDB: build.query({
+      query: () => ({
+        url: "/image-gallery",
+        method: "GET",
+      }),
+      providesTags: ["ImageGallery"],
+    }),
+
     // CREATE: Save Draft
     saveDraft: build.mutation<
       { success: boolean; message: string; data: Article },
@@ -96,4 +119,7 @@ export const {
   useUpdateArticleMutation,
   useDeleteArticleMutation,
   useUpdateStatusArticleMutation,
+  useUploadImageMutation,
+  useGetAllImageFormDBQuery,
+  useSaveDataBaseImageMutation,
 } = articleApi;
